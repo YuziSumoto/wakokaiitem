@@ -1,0 +1,90 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+    select   {font-size:X-LARGE;width:200px}
+  </style>
+
+	<title>物品払出明細 ITEM210</title>
+</head>
+
+<body>
+	<form name="Main" action="/item000/" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">発注日</TH>
+		<TD style="width:300px">2016/11/10</TD>
+	<TR>
+	</TR>
+		<TH>分類</TH>
+		<TD>
+			<select name="SyasyuCD">
+				<OPTION value="1">外用
+				<OPTION value="2">医療材料
+				<OPTION value="3">文具
+				<OPTION value="4">インク
+				<OPTION value="5">トナー
+			</select>
+		</TD>
+	<TR>
+	</TR>
+		<TH>品名</TH>
+		<TD>
+			<select name="SyasyuCD">
+				<OPTION value="1">鉛筆　8900-HB
+				<OPTION value="2">消しゴム付鉛筆
+				<OPTION value="3">赤鉛筆
+				<OPTION value="4">赤青鉛筆8900VP（朱藍）
+				<OPTION value="5">クラフトテープ（紙ｶﾞﾑﾃｰﾌﾟ）
+			</select>
+		</TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">数量</TH>
+		<TD style="width:50px">
+			<select name="SyasyuCD" style="width:50px">
+				<OPTION value="1">1
+				<OPTION value="2">2
+				<OPTION value="3">3
+				<OPTION value="4">4
+				<OPTION value="5">5
+			</select>
+		</TD>
+		<TH style="width:50px">箱</TH>
+		<TD>
+			<select name="SyasyuCD" style="width:50px">
+				<OPTION value="1">1
+				<OPTION value="2">2
+				<OPTION value="3">3
+				<OPTION value="4">4
+				<OPTION value="5">5
+			</select>
+		</TD>
+		<TH style="width:50px">本</TH>
+	</TR>
+
+</TABLE>
+
+
+<BR><BR><BR>
+<input type="button" value = "中止" class="button"
+  onclick="location.href='/item200/'">
+　　　　
+<input type="button" value = "決定" class="button"
+  onclick="location.href='/item200/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

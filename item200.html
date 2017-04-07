@@ -1,0 +1,88 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+    TABLE  {table-layout:fixed;width:800px}
+		TH {background-color: cyan;}
+    SELECT {font-size:LARGE}
+  </style>
+
+	<title>物品払出願い ITEM200</title>
+</head>
+
+<body>
+	<form name="Main" action="/item000/" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:80px">発注日</TH>
+		<TD style="width:100px">平成28/11/10</TD>
+		<TH style="width:80px">部署</TH>
+		<TD style="width:100px">
+			<select name="SyasyuCD">
+				<OPTION value="1">医局
+				<OPTION value="2">３病棟
+				<OPTION value="3">中央病棟
+				<OPTION value="4">５病棟
+				<OPTION value="5">６病棟
+				<OPTION value="5">外来
+				<OPTION value="5">事務
+				<OPTION value="5">薬局
+			</select>
+		</TD>
+		<TH style="width:80px">所属長</TH>
+		<TD style="width:100px">未確認</TD>
+		<TH style="width:80px">担当者</TH>
+		<TD style="width:100px">須本</TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1">
+	<TR>
+		<TH style="width:50px">Ｎｏ</TH>
+		<TH style="width:200px">品名</TH>
+		<TH style="width:100px">個数</TH>
+		<TH style="width:100px">規格・型番</TH>
+		<TH style="width:200px">理由</TH>
+	</TR>
+	<TR>
+		<TD>
+			<input type="button" style="WIDTH:50px" onclick="location.href='/item210/'"
+			value = "01">
+		</TD>
+		<TD>鉛筆　8900-HB</TD>
+		<TD align="center">1箱</TD>
+		<TD></TD>
+		<TD></TD>
+	</TR>
+	<TR>
+		<TD>
+			<input type="button" style="WIDTH:50px" onclick="location.href='/item210/'"
+			value = "02">
+		</TD>
+		<TD>クラフトテープ（紙ｶﾞﾑﾃｰﾌﾟ）</TD>
+		<TD align="center">1巻</TD>
+		<TD></TD>
+		<TD></TD>
+	</TR>
+
+</TABLE>
+
+
+<BR><BR><BR>
+<input type="button" value = "明細追加" class="button"
+  onclick="location.href='/item210/'">
+　　　
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

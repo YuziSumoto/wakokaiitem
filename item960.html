@@ -1,0 +1,89 @@
+﻿<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    SELECT  {font-size:X-LARGE}
+    INPUT   {font-size:X-LARGE}
+		INPUT[type="button"]{font-size:XX-LARGE}
+		INPUT[type="submit"]{font-size:XX-LARGE}
+		.ListButton {width:200px;}
+		.ListButton2 {width:100px}
+		TABLE  {table-layout: fixed}
+		TH {background-color: cyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  280px;
+			height: 360px;
+			border: 4px double #000000; 
+		}
+  </style>
+
+	<title>和恒会物品管理(item960)</title>
+</head>
+
+<body>
+	<form name="MAIN" action="/item960/" method="post" style="font-size:X-LARGE">
+<!--  一覧部 -->
+  <table border="1">
+		<TR>
+			<TH Width="50px">コード</TH>
+			<TD Width="50px"> {{ Rec.Code }}</TD>
+		</TR>
+		<TR>
+			<TH Width="200px">物品名</TH>
+			<TD Width="200px">{{ Rec.Name }}</TD>
+		</TR>
+	</table>
+<BR>
+  <table border="1">
+		<TR>
+			<TH Width="200px">部署名</TH>
+			<TH Width="50px">定数</TH>
+		</TR>
+	</table>
+	<DIV class="scr">
+	<table border="1">
+		<TR Height="0"> <!-- # 枠幅設定用行なので高さは０ -->
+			<TD Width="200px" style="border-style:none"></TD>
+			<TD Width="50px" style="border-style:none"></TD>
+		</TR>
+		{% for RecMst in Snap %} 
+			<TR>
+				<TD> <!-- 選択ボタン -->
+					<input class="ListButton" style="font-size:LARGE" type='submit'
+						 value = '{{ RecMst.Name }}' name='BtnSel{{ RecMst.Code }}' />
+				</TH>
+				<TD>{{ RecMst.Suryo}}</TD>
+			</TR>
+		{% endfor %}
+	</table>
+	</DIV>
+	<BR>
+<!--  登録部 -->
+  <table border="1" style="font-size:LARGE">
+		<TR>
+			<TD Width="200px">
+				{{ Rec.BusyoName }}
+			</TD>
+			<TD>
+				<input type="number" min="1" max="99" value="{{ Rec.Suryo }}" name="Suryo" style="Width:50px"/>
+			</TD>		
+			<TD>
+				<input class="ListButton2" style="font-size:LARGE" type="submit" value="更新" name="BtnMod" />
+			</TD>
+		</TR>
+	</table>
+
+<BR>
+
+<input type="button" value="中止" onclick="location.href='/item950/'">
+　　
+
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+</form>
+</body>
+
+</html>

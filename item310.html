@@ -1,0 +1,84 @@
+<html>
+<head>
+  <style type="text/css">
+    input[type="text"]   {font-size:LARGE;width:300px}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+    select   {font-size:X-LARGE;width:200px}
+  </style>
+
+	<title>物品払出明細 ITEM210</title>
+</head>
+
+<body>
+	<form name="Main" action="/item000/" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">発注日</TH>
+		<TD style="width:300px">2016/11/10</TD>
+	</TR>
+	<TR>
+		<TH>品名</TH>
+		<TD>
+			<input type="text" >
+		</TD>
+	</TR>
+	<TR>
+		<TH>規格型番</TH>
+		<TD>
+			<input type="text" />
+		</TD>
+	</TR>
+	<TR>
+		<TH>理由</TH>
+		<TD>
+			<input type="text" >
+		</TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">数量</TH>
+		<TD style="width:50px">
+			<select name="SyasyuCD" style="width:50px">
+				<OPTION value="1">1
+				<OPTION value="2">2
+				<OPTION value="3">3
+				<OPTION value="4">4
+				<OPTION value="5">5
+			</select>
+		</TD>
+		<TH style="width:50px">箱</TH>
+		<TD>
+			<select name="SyasyuCD" style="width:50px">
+				<OPTION value="1">1
+				<OPTION value="2">2
+				<OPTION value="3">3
+				<OPTION value="4">4
+				<OPTION value="5">5
+			</select>
+		</TD>
+		<TH style="width:50px">本</TH>
+	</TR>
+
+</TABLE>
+
+
+<BR><BR><BR>
+<input type="button" value = "中止" class="button"
+  onclick="location.href='/item300/'">
+　　　　
+<input type="button" value = "決定" class="button"
+  onclick="location.href='/item300/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

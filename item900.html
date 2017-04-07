@@ -1,0 +1,84 @@
+﻿<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  600px;
+			height: 300px;
+			border: 4px double #000000; 
+		}
+  </style>
+
+	<title>和恒会物品管理(item900)</title>
+</head>
+
+<body>
+	<form name="MAIN" action="/item900/" method="post" style="font-size:X-LARGE">
+<!--  一覧部 -->
+  <table border="1">
+		<TR>
+			<TH Width="100px">日付</TH>
+			<TH Width="200px">締め日時</TH>
+			<TH Width="200px">印刷日時</TH>
+			<TH Width="50px">削除</TH>
+		</TR>
+	</table>
+
+	<DIV class="scr">
+	<table border="1">
+		<TR Height="0"> <!-- # 枠幅設定用行なので高さは０ -->
+			<TD Width="100px" style="border-style:none"></TD>
+			<TD Width="200px" style="border-style:none"></TD>
+			<TD Width="200px" style="border-style:none"></TD>
+			<TD Width="50px" style="border-style:none"></TD>
+		</TR>
+		{% for RecMst in Snap %} 
+			<TR>
+				<TD>{{ RecMst.Hizuke|date:"Y/m/d"}}</TD>
+				<TD>
+					{% if RecMst.SimeNitizi %}
+						{{ RecMst.SimeNitizi|date:"Y/m/d H:i:s" }} <!-- 締め日時表示 -->
+					{% endif %}
+				</TD>
+				<TD>
+					{% if RecMst.InsatuNitizi %}
+						{{ RecMst.InsatuNitizi|date:"Y/m/d H:i:s" }} <!-- 締め日時表示 -->
+					{% endif %}
+				</TD>
+				<TD> <!-- 削除ボタン -->
+					<input style="width:48px" type='submit' value='削除' name='BtnDel{{  RecMst.Hizuke|date:"Y/m/d" }}' >
+				</TD>
+			</TR>
+		{% endfor %}
+	</table>
+	</DIV>
+<!--  登録部 -->
+    <table border="1" style="font-size:LARGE">
+			<TR>
+				<TH>日付</TH>
+				<TD>
+					<input type="date" value="" name="Hizuke" class="text" />
+				</TD>
+				<TD>
+					<input type="submit" value = "追加" name="BtnAdd">
+				</TD>
+			</TR>
+
+		</table>
+<BR>
+　　　　　　
+<input type="button" class="button" value="終了" onclick="location.href='/'">
+
+
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+</form>
+</body>
+
+</html>

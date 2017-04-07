@@ -9,8 +9,78 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
+# メニュー
+- url: /item000/.*
+  script: item000.app
+
+# 定期発注画面
+- url: /item100/.*
+  script: item100.app
+# 定期発注明細画面
+- url: /item110/.*
+  script: item110.app
+
+# 物品払出願画面
+- url: /item200/.*
+  script: item200.app
+# 物品払出明細画面
+- url: /item210/.*
+  script: item210.app
+
+# 物品購入願画面
+- url: /item300/.*
+  script: item300.app
+# 物品購入明細画面
+- url: /item310/.*
+  script: item310.app
+
+# 伝票承認一覧画面
+- url: /item500/.*
+  script: item500.app
+# 伝票承認画面
+- url: /item510/.*
+  script: item510.app
+
+# 請求伝票印刷指示画面
+- url: /item600/.*
+  script: item600.app
+# 請求伝票印刷
+- url: /item610/.*
+  script: item610.app
+
+# 払出願印刷処理画面
+- url: /item700/.*
+  script: item700.app
+# 購入願印刷処理画面
+- url: /item800/.*
+  script: item800.app
+
+# 発注日マスタメンテ画面
+- url: /item900/.*
+  script: item900.app
+# 部署マスタメンテ画面
+- url: /item910/.*
+  script: item910.app
+# 使用者マスタメンテ画面
+- url: /item920/.*
+  script: item920.app
+# 棚マスタメンテ画面
+- url: /item930/.*
+  script: item930.app
+# 仕入先マスタメンテ画面
+- url: /item940/.*
+  script: item940.app
+# 商品マスタメンテ画面
+- url: /item950/.*
+  script: item950.app
+
+# 定数マスタメンテ画面
+- url: /item960/.*
+  script: item960.app
+
+
 - url: .*
-  script: main.app
+  script: item000.app
 
 libraries:
 - name: webapp2

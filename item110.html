@@ -1,0 +1,69 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+    SELECT   {font-size:X-LARGE;width:80px}
+  </style>
+
+	<title>物品定期発注明細 ITEM110</title>
+</head>
+
+<body>
+	<form name="Main" action="/item110/" method="post"  style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">発注日</TH>
+		<TD style="width:300px">{{ Rec.Hizuke }}</TD>
+	<TR>
+	</TR>
+		<TH>品名</TH>
+		<TD>{{ Rec.Name }}</TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">定数・限度数</TH>
+		<TD style="width:50px" class="text">
+			{{ Rec.Teisu }}
+		</TD>
+		<TD>
+		</TD>
+	</TR>
+	<TR>
+		<TH style="width:100px">数量</TH>
+		<TD style="width:50px">
+			<input type="number" min="1" max="99" value="{{ Rec.Suryo }}" name="Suryo" class="text" />
+		</TD>
+		<TD style="width:50px">
+			{{ Rec.Tanni1 }}
+		</TD>
+	</TR>
+	<TR>
+		<TH>備考</TH>
+		<TD colspan="2">
+			<input value="{{ Rec.Bikou }}" name="Bikou" maxlength="20" class="text" />
+		</TD>
+	</TR>
+
+</TABLE>
+
+
+<BR><BR><BR>
+<input type="button" value = "中止" class="button"
+  onclick="location.href='/item100/'">
+　　　　
+<input type="submit" value = "決定" class="button"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

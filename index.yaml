@@ -10,3 +10,27 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: DatHizuke
+  properties:
+  - name: SimeNitizi
+  - name: Hizuke
+
+- kind: MstBuppin
+  properties:
+  - name: Siiresaki
+  - name: Code
+
+- kind: MstBuppin
+  properties:
+  - name: SiiresakiCD
+  - name: Code
+
+- kind: MstBusyo
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: MstSiyousya
+  properties:
+  - name: BusyoCD
+  - name: Code

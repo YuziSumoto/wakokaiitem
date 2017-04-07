@@ -1,0 +1,94 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:XX-LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  550px;
+			height: 300px;
+			border: 1px double #000000; 
+		}
+  </style>
+
+	<title>消耗品発注 ITEM100</title>
+</head>
+
+<body>
+	<form name="Main" action="/item100/" method="post" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">発注日</TH>
+		<TD style="width:100px">{{ Rec.Hizuke }}</TD>
+		<TH colspan="4">提出 10:30迄 受渡 14:00～</TH>
+	</TR>
+	<TR>
+		<TH style="width:100px">部署</TH>
+		<TD style="width:100px">{{ Rec.BusyoName }}</TD>
+<!--
+		<TH style="width:100px">所属長確認</TH>
+		<TD style="width:100px">未確認</TD>
+		<TH style="width:100px">担当者</TH>
+		<TD style="width:100px">須本</TD>
+-->
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1">
+	<TR>
+		<TH style="width:300px">品名</TH>
+		<TH style="width:50px">数量</TH>
+		<TH style="width:50px">単位</TH>
+		<TH style="width:100px">備考</TH>
+<!--
+		<TH style="width:50px">数量</TH>
+		<TH style="width:50px">単位</TH>
+-->
+	</TR>
+</TABLE>
+<DIV class="scr">
+	<TABLE border="1">
+		<TR>
+			<TH style="height=0;width:300px"></TH>
+			<TH style="height=0;width:50px"></TH>
+			<TH style="height=0;width:50px"></TH>
+			<TH style="height=0;width:100px"></TH>
+<!--
+		<TH style="width:50px">数量</TH>
+		<TH style="width:50px">単位</TH>
+-->
+		</TR>
+			{% for DataRec in DataRecs %} 
+				<TR>
+					<TD>
+						<input type="submit" style="WIDTH:300px" Name="BtnSel{{ DataRec.Code }}"
+						value = "{{ DataRec.Name }}">
+					</TD>
+					<TD>{{ DataRec.Suryo }}</TD>
+					<TD>{{ DataRec.Tanni1 }}</TD>
+					<TD>{{ DataRec.Bikou }}</TD>
+				</TR>
+			{% endfor %}
+	</TABLE>
+</DIV>
+
+
+<BR><BR><BR>
+<!--
+<input type="button" value = "前回発注複写" class="button"
+  onclick="location.href='/item120/'">
+-->
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

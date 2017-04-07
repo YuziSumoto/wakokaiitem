@@ -1,0 +1,79 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+    select  {font-size:LARGE}
+    TABLE  {table-layout:fixed;width:600px}
+		TH {font-size:LARGE;background-color: cyan;}
+  </style>
+
+	<title>伝票承認 ITEM500</title>
+</head>
+
+<body>
+	<form name="Main" action="/item000/" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">部署</TH>
+		<TD colspan="3">
+			<select name="SyasyuCD">
+				<OPTION value="0">全部署
+				<OPTION value="1">医局
+				<OPTION value="2">３病棟
+				<OPTION value="3">中央病棟
+				<OPTION value="4">５病棟
+				<OPTION value="5">６病棟
+				<OPTION value="5">外来
+				<OPTION value="5">事務
+				<OPTION value="5">薬局
+			</select>
+		</TD>
+	</TR>
+	<TR>
+		<TH style="width:100px">依頼日</TH>
+		<TH style="width:100px">伝票区分</TH>
+		<TH style="width:100px">承認日時</TH>
+		<TH style="width:100px">承認者</TH>
+		<TH style="width:100px">入力者</TH>
+	</TR>
+</TABLE>
+<TABLE border="1">
+	<TR BORDER="0" style="height:0px">
+		<TH  BORDER="0" style="width:100px"></TH>
+		<TH  BORDER="0" style="width:100px"></TH>
+		<TH  BORDER="0" style="width:100px"></TH>
+		<TH  BORDER="0" style="width:100px"></TH>
+		<TH  BORDER="0" style="width:100px"></TH>
+	</TR>
+	<TR><TD>
+		<input type="button" style="WIDTH:100px" onclick="location.href='/item510/'"
+		value = "2016/11/10">
+		</TD><TD>購入願</TD><TD>2016/11/15</TD><TD>石田</TD><TD>西迫</TD></TR>
+	<TR><TD>
+		<input type="button" style="WIDTH:100px" onclick="location.href='/item510/'"
+		value = "2016/11/10">
+		</TD><TD>払出願</TD><TD></TD><TD></TD><TD>須本</TD></TR>
+	<TR><TD>
+		<input type="button" style="WIDTH:100px" onclick="location.href='/item510/'"
+		value = "2016/11/10">
+		</TD><TD>定期</TD><TD>2016/11/15</TD><TD>石田</TD><TD>西迫</TD></TR>
+
+</TABLE>
+
+
+<BR><BR><BR>
+　　　
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

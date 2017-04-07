@@ -1,0 +1,74 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button2{font-size:LARGE;width:200px}
+    .button {font-size:XX-LARGE}
+    select  {font-size:LARGE}
+    TABLE  {table-layout:fixed;width:580px}
+		TH {font-size:LARGE;background-color: cyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  650px;
+			height: 300px;
+			border: 4px double #000000; 
+		}
+  </style>
+
+	<title>締め処理 ITEM600</title>
+</head>
+
+<body>
+	<form name="Main" action="/item600/"  method="post"  style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:104px">請求日</TH>
+		<TH style="width:150px">締め日時</TH>
+		<TH style="width:150px">印刷日時</TH>
+	</TR>
+</TABLE>
+<DIV class="scr">
+	<TABLE border="1">
+		<TR BORDER="0" style="height:0px">
+			<TD  BORDER="0" style="width:100px"></TD>
+			<TD  BORDER="0" style="width:150px"></TD>
+			<TD  BORDER="0" style="width:150px"></TD>
+		</TR>
+		{% for Rec in Snap %} 
+			<TR>
+				<TD>{{ Rec.Hizuke|date:"Y/m/d"}}</TD>
+				<TD>
+					{% if Rec.SimeNitizi %}
+						{{ Rec.SimeNitizi|date:"Y/m/d H:i:s" }} <!-- 締め日時表示 -->
+					{% else %}
+						<input type='submit' value='締め実施' name='BtnSime{{ Rec.Hizuke|date:"Y/m/d" }}' class="button2">
+					{% endif %}
+				</TD>
+				<TD>
+					<input type='button' class="button2"
+						{% if Rec.SimeNitizi %}
+							value= "{{ Rec.InsatuNitizi|date:"Y/m/d H:i:s" }}"
+						{% else %}
+							value= "印刷実行"
+						{% endif %}
+						onclick="window.open('/item610/?Hizuke={{ Rec.Hizuke|date:"Y/m/d" }}');setTimeout('document.Main.submit()', 1000);">
+				</TD>
+			</TR>
+		{% endfor %}
+	</TABLE>
+</DiV>
+
+<BR>
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

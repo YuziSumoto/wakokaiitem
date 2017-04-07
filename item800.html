@@ -1,0 +1,107 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+    select  {font-size:LARGE}
+    TABLE  {table-layout:fixed;width:350px}
+		TH {font-size:LARGE;background-color: cyan;}
+  </style>
+
+	<title>購入願い印刷 ITEM800</title>
+</head>
+
+<body>
+	<form name="Main" action="/item000/" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">印刷日時</TH>
+		<TH style="width:100px">伝票枚数</TH>
+		<TH style="width:100px">再印刷指示</TH>
+	</TR>
+</TABLE>
+<TABLE border="1">
+	<TR BORDER="0" style="height:0px">
+		<TH  BORDER="0" style="width:100px"></TH>
+		<TH  BORDER="0" style="width:100px"></TH>
+		<TH  BORDER="0" style="width:100px"></TH>
+	</TR>
+	<TR>
+		<TD>11/01 10:30</TD>
+		<TD>3枚</TD>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "再印刷">
+		</TD>
+	</TR>
+	<TR>
+		<TD>11/02 10:35</TD>
+		<TD>6枚</TD>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "再印刷">
+		</TD>
+	</TR>
+	<TR>
+		<TD>11/04 10:40</TD>
+		<TD>2枚</TD>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "再印刷">
+		</TD>
+	</TR>
+	<TR>
+		<TD>11/05 10:33
+		</TD>
+		<TD>5枚</TD>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "再印刷">
+		</TD>
+	</TR>
+	<TR>
+		<TD>11/07 10:33
+		</TD>
+		<TD>5枚</TD>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "再印刷">
+		</TD>
+	</TR>
+	<TR>
+		<TD>11/08 10:43
+		</TD>
+		<TD>4枚</TD>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "再印刷">
+		</TD>
+	</TR>
+	<TR>
+		<TD>11/08 13:24
+		</TD>
+		<TD>1枚</TD>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "再印刷">
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<input type="button" style="WIDTH:100px" value = "未印刷">
+		</TD>
+		<TD>3枚</TD>
+		<TD>
+		</TD>
+	</TR>
+
+</TABLE>
+
+
+<BR><BR><BR>
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>
