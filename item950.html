@@ -11,9 +11,9 @@
 		TH {background-color: cyan;}
 		.scr {
 			overflow-y: scroll;   /* スクロール表示 */ 
-			width:  720px;
+			width:  1050px;
 			height: 300px;
-			border: 4px double #000000; 
+			border: 1px double #000000; 
 		}
   </style>
 
@@ -31,43 +31,52 @@
 			<TH Width="50px">単位1</TH>
 			<TH Width="50px">単位2</TH>
 			<TH Width="100px">棚</TH>
+			<TH Width="100px">庶務CD</TH>
+			<TH Width="100px">単価</TH>
+			<TH Width="100px">勘定科目</TH>
 			<TH Width="50px">削除</TH>
 			<TH Width="50px">定数<BR>限度数</TH>
 		</TR>
 	</table>
 
 	<DIV class="scr">
-	<table border="1">
-		<TR Height="0"> <!-- # 枠幅設定用行なので高さは０ -->
-			<TD Width="50px" style="border-style:none"></TD>
-			<TD Width="200px" style="border-style:none"></TD>
-			<TD Width="106px" style="border-style:none"></TD>
-			<TD Width="50px" style="border-style:none"></TD>
-			<TD Width="50px" style="border-style:none"></TD>
-			<TD Width="104px" style="border-style:none"></TD>
-			<TD Width="50px" style="border-style:none"></TD>
-			<TD Width="50px" style="border-style:none"></TD>
-		</TR>
-		{% for RecMst in Snap %} 
-			<TR>
-				<TD> <!-- 選択ボタン -->
-					<input class="ListButton" style="font-size:LARGE" type='submit' value = '{{ RecMst.Code }}' name='BtnSel' >
-				</TH>
-				<TD>{{ RecMst.Name}}</TD>
-				<TD>{{ RecMst.SiiresakiName}}</TD>
-				<TD>{{ RecMst.Tanni1}}</TD>
-				<TD>{{ RecMst.Tanni2}}</TD>
-				<TD>{{ RecMst.TanaName}}</TD>
-				<TD> <!-- 削除ボタン -->
-					<input class="ListButton" style="font-size:LARGE"  type='submit' value='削除' name='BtnDel{{ RecMst.Code }}' >
-				</TD>
-				<TD> <!-- 定数ボタン -->
-					<input class="ListButton" style="font-size:LARGE"  type='submit' value='定数' name='BtnTeisu{{ RecMst.Code }}' >
-				</TD>
+		<table border="1">
+			<TR Height="1"> <!-- # 枠幅設定用行なので高さは０ -->
+				<TD Width="52px" style="border-style:none"></TD>
+				<TD Width="202px" style="border-style:none"></TD>
+				<TD Width="102px" style="border-style:none"></TD>
+				<TD Width="52px" style="border-style:none"></TD>
+				<TD Width="52px" style="border-style:none"></TD>
+				<TD Width="102px" style="border-style:none"></TD>
+				<TD Width="102px" style="border-style:none"></TD>
+				<TD Width="102px" style="border-style:none"></TD>
+				<TD Width="102px" style="border-style:none"></TD>
+				<TD Width="52px" style="border-style:none"></TD>
+				<TD Width="52px" style="border-style:none"></TD>
 			</TR>
-		{% endfor %}
-	</table>
-	</DIV>
+			{% for RecMst in Snap %} 
+				<TR>
+					<TD> <!-- 選択ボタン -->
+						<input class="ListButton" style="font-size:LARGE" type='submit' value = '{{ RecMst.Code }}' name='BtnSel' >
+					</TH>
+					<TD>{{ RecMst.Name}}</TD>
+					<TD>{{ RecMst.SiiresakiName}}</TD>
+					<TD>{{ RecMst.Tanni1}}</TD>
+					<TD>{{ RecMst.Tanni2}}</TD>
+					<TD>{{ RecMst.TanaName}}</TD>
+					<TD>{{ RecMst.Code2|default_if_none:"" }}</TD>
+					<TD>{{ RecMst.Tanka|default_if_none:"" }}</TD>
+					<TD>{{ RecMst.Kamoku|default_if_none:"" }}</TD>
+					<TD> <!-- 削除ボタン -->
+						<input class="ListButton" style="font-size:LARGE"  type='submit' value='削除' name='BtnDel{{ RecMst.Code }}' >
+					</TD>
+					<TD> <!-- 定数ボタン -->
+						<input class="ListButton" style="font-size:LARGE"  type='submit' value='定数' name='BtnTeisu{{ RecMst.Code }}' >
+					</TD>
+				</TR>
+			{% endfor %}
+		</table>
+	</DIV> 
 <!--  登録部 -->
     <table border="1" style="font-size:LARGE">
 			<TR> <!-- # 枠幅設定用行なので高さは０ -->
@@ -79,7 +88,7 @@
 			<TR>
 				<TH>コード</TH>
 				<TD>
-					<input type="number" min="1" max="99" value="{{ Rec.Code }}" name="Code" />
+					<input type="number" min="1" max="999" value="{{ Rec.Code }}" name="Code" />
 				</TD>
 			</TR>
 			<TR>
@@ -119,6 +128,30 @@
 						{% for RecMst in SnapTana %} 
 							<OPTION value="{{ RecMst.Code }}"
 								{% if Rec.Tana == RecMst.Code  %} Selected {% endif %}
+							>{{ RecMst.Name}}
+						{% endfor %}
+					</select>
+				</TD>
+			</TR>
+			<TR>
+				<TH>庶務CD</TH>
+				<TD>
+					<input value="{{ Rec.Code2 }}" name="Code2" size="10" />
+				</TD>
+			</TR>
+			<TR>
+				<TH>単価</TH>
+				<TD>
+					<input value="{{ Rec.Tanka }}" name="Tanka" size="10" />
+				</TD>
+			</TR>
+			<TR>
+				<TH>科目</TH>
+				<TD>
+					<select name="KamokuCD">
+						{% for RecMst in SnapKamoku %} 
+							<OPTION value="{{ RecMst.Code }}"
+								{% if Rec.KamokuCD == RecMst.Code  %} Selected {% endif %}
 							>{{ RecMst.Name}}
 						{% endfor %}
 					</select>

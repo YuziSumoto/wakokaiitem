@@ -14,6 +14,7 @@ from MstSiyousya  import *   # 使用者マスタ
 from MstTana      import *   # 棚マスタ
 from MstSiiresaki import *   # 仕入先マスタ
 from MstBuppin    import *   # 物品マスタ
+from MstKamoku    import *   # 科目マスタ
 
 class MainHandler(webapp2.RequestHandler):
 
@@ -30,6 +31,7 @@ class MainHandler(webapp2.RequestHandler):
                        ,'Snap'         :MstBuppin().GetAll()
                        ,'SnapSiiresaki':MstSiiresaki().GetAll()
                        ,'SnapTana'     :MstTana().GetAll()
+                       ,'SnapKamoku'   :MstKamoku().GetAll()
                       }
     path = os.path.join(os.path.dirname(__file__), 'item950.html')
     self.response.out.write(template.render(path, template_values))
@@ -52,6 +54,9 @@ class MainHandler(webapp2.RequestHandler):
       Rec.Tanni1    = self.request.get('Tanni1')
       Rec.Tanni2    = self.request.get('Tanni2')
       Rec.Tana      = int(self.request.get('Tana'))
+      Rec.Code2     = int(self.request.get('Code2'))
+      Rec.Tanka     = float(self.request.get('Tanka'))
+      Rec.KamokuCD  = int(self.request.get('KamokuCD'))
       Rec.AddRec(Rec)
       LblMsg = "更新完了"
 
@@ -73,6 +78,7 @@ class MainHandler(webapp2.RequestHandler):
                        ,'Snap'         :MstBuppin().GetAll()
                        ,'SnapSiiresaki':MstSiiresaki().GetAll()
                        ,'SnapTana'     :MstTana().GetAll()
+                       ,'SnapKamoku'   :MstKamoku().GetAll()
                         }
     path = os.path.join(os.path.dirname(__file__), 'item950.html')
     self.response.out.write(template.render(path, template_values))

@@ -48,6 +48,10 @@ handlers:
 - url: /item610/.*
   script: item610.app
 
+# 半年集計印刷
+- url: /item620/.*
+  script: item620.app
+
 # 払出願印刷処理画面
 - url: /item700/.*
   script: item700.app
@@ -78,6 +82,9 @@ handlers:
 - url: /item960/.*
   script: item960.app
 
+# 科目マスタメンテ画面
+- url: /item970/.*
+  script: item970.app
 
 - url: .*
   script: item000.app

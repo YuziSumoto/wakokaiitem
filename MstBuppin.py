@@ -3,6 +3,7 @@ from google.appengine.ext import db
 import datetime
 from MstSiiresaki    import *   # 仕入先マスタ
 from MstTana         import *   # 棚マスタ
+from MstKamoku       import *   # 科目マスタ
 
 class MstBuppin(db.Model):
   Code            = db.IntegerProperty()                    # ＣＤ
@@ -11,6 +12,9 @@ class MstBuppin(db.Model):
   Tanni2          = db.StringProperty(multiline=False)      # 単位2
   Siiresaki       = db.IntegerProperty()                    # 仕入先ＣＤ
   Tana            = db.IntegerProperty()                    # 棚CD
+  Tanka           = db.FloatProperty()                      # 単価
+  Code2           = db.IntegerProperty()                    # 庶務CD
+  KamokuCD        = db.IntegerProperty()                    # 科目CD
 
   def GetAll(self):
     Sql =  "SELECT * FROM " + self.__class__.__name__
@@ -23,6 +27,7 @@ class MstBuppin(db.Model):
     for Rec in Recs:
       setattr(Rec,"SiiresakiName",MstSiiresaki().GetRec(Rec.Siiresaki).Name)
       setattr(Rec,"TanaName",MstTana().GetRec(Rec.Tana).Name)
+      setattr(Rec,"Kamoku",MstKamoku().GetRec(Rec.KamokuCD).Name)
 
     return Recs
 

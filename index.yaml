@@ -15,6 +15,23 @@ indexes:
   - name: SimeNitizi
   - name: Hizuke
 
+- kind: DatSeikyu
+  properties:
+  - name: BusyoCode
+  - name: Hizuke
+
+- kind: DatSeikyu
+  properties:
+  - name: BusyoCode
+  - name: Hizuke
+  - name: BuppinCode
+
+- kind: DatSeikyu
+  properties:
+  - name: Hizuke
+  - name: BusyoCode
+  - name: BuppinCode
+
 - kind: MstBuppin
   properties:
   - name: Siiresaki

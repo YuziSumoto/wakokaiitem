@@ -21,6 +21,21 @@ class DatSeikyu(db.Model):
       Recs = Snap.fetch(1)[0]
     return Recs
 
+  def GetKikan(self,BusyoCode,SHizuke,EHizuke):
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql +=  " Where  Hizuke     >= DATE('" + SHizuke.replace("/","-") + "')"
+    Sql +=  "  And   Hizuke     <  DATE('" + EHizuke.replace("/","-") + "')"
+    Sql +=  "  And   BusyoCode  = " + str(BusyoCode)
+    Snap = db.GqlQuery(Sql)
+    Recs = {}  # 空の辞書
+    for Rec in  Snap:
+      if Recs.has_key(Rec.BuppinCode):# 既出?
+        Recs[Rec.BuppinCode] = Recs[Rec.BuppinCode] + Rec.Suryo # 加算
+      else:
+        Recs[Rec.BuppinCode] = Rec.Suryo # セット
+    
+    return Recs
+
   def Delete(self,Hizuke,BusyoCode,BuppinCode):
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql +=  " Where Hizuke     = DATE('" + Hizuke.strftime("%Y-%m-%d") + "')"

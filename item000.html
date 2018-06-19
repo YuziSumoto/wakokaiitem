@@ -45,18 +45,28 @@
 	</TR>
 	<TR>
 		<TH>伝票出力</TH>
-		<TH>発注日登録</TH>
-		<TH>マスタメンテ</TH>
-	</TR>
-	<TR>
 		<TD>
 			<input type="button" value = "請求伝票出力" class="button"
 				onclick="location.href='/item600/'"><BR>
 		</TD>
+	</TR>
+	<TR>
+		<TH>発注日登録</TH>
 		<TD>
 			<input type="button" value = "発注日マスタ" class="button"
 				onclick="location.href='/item900/'"><BR>
 		</TD>
+	</TR>
+	<TR>
+		<TH>半年集計印刷</TH>
+		<TD>
+			<input type='button' class="button"
+				value= "印刷実行"
+				onclick="window.open('/item620/');setTimeout('document.Main.submit()', 1000);">
+		</TD>
+	</TR>
+	<TR>
+		<TH>マスタメンテ</TH>
 		<TD>
 			<input type="button" value = "部署マスタ" class="button"
 				onclick="location.href='/item910/'"><BR>
@@ -67,7 +77,9 @@
 			<input type="button" value = "仕入先マスタ" class="button"
 				onclick="location.href='/item940/'"><BR>
 			<input type="button" value = "物品マスタ" class="button"
-				onclick="location.href='/item950/'">
+				onclick="location.href='/item950/'"><BR>
+			<input type="button" value = "科目マスタ" class="button"
+				onclick="location.href='/item970/'">
 		</TD>
 	</TR>
 </TABLE>
