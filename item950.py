@@ -54,8 +54,10 @@ class MainHandler(webapp2.RequestHandler):
       Rec.Tanni1    = self.request.get('Tanni1')
       Rec.Tanni2    = self.request.get('Tanni2')
       Rec.Tana      = int(self.request.get('Tana'))
-      Rec.Code2     = int(self.request.get('Code2'))
-      Rec.Tanka     = float(self.request.get('Tanka'))
+      if self.request.get('Code2') != "":
+        Rec.Code2     = int(self.request.get('Code2'))
+      if self.request.get('Tanka') != "":
+        Rec.Tanka     = float(self.request.get('Tanka'))
       Rec.KamokuCD  = int(self.request.get('KamokuCD'))
       Rec.AddRec(Rec)
       LblMsg = "更新完了"
