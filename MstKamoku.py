@@ -16,6 +16,17 @@ class MstKamoku(db.Model):
       Recs = Snap.fetch(Snap.count())
     return Recs
 
+  def GetAll2(self): # 新システム用
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql += " Where Code >= 10"
+    Sql += " Order By Code"
+    Snap = db.GqlQuery(Sql)
+    if Snap.count() == 0:
+      Recs = {}
+    else:
+      Recs = Snap.fetch(Snap.count())
+    return Recs
+
   def Delete(self,Code):
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql += " Where Code = " + str(Code)

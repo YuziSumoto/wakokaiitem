@@ -1,0 +1,32 @@
+﻿<html>
+<head>
+  <style type="text/css">
+    SELECT  {font-size:XX-LARGE}
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+  </style>
+	<title>和恒会物品管理システム(ITEM000)</title>
+</head>
+
+<body>
+	<form action="/item0000/"  method="post">
+
+	<select name="BusyoCD" onchange="submit(this.form);">
+		{% for RecMst in MstBusyo %} 
+			<OPTION value="{{ RecMst.Code }}"
+			{% if Busyo == RecMst.Code %} selected {% endif %}
+			>{{ RecMst.Name}}
+		{% endfor %}
+	</select>
+<BR>
+{{ LblMsg }}<BR>
+<BR>
+<input type="button" value = "物品請求" class="button"
+	onclick="location.href='/item0100/?Busyo={{ Busyo }}'"><BR>
+<BR>
+
+</form>
+</body>
+
+</html>

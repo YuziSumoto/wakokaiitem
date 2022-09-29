@@ -1,0 +1,49 @@
+﻿<html>
+<head>
+  <style type="text/css">
+    SELECT  {font-size:XX-LARGE}
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE;width:300px;}
+		TH {background-color: cyan;}
+  </style>
+
+	<title>マスタメンテメニュー(ITEM9000)</title>
+</head>
+
+<body>
+<TABLE Border="1" class="text">
+	<TR>
+		<TH colspan="3">管理者メニュー</TH>
+	</TR>
+	<TR>
+		<TH>伝票出力</TH>
+		<TD>
+			<input type="button" value = "請求伝票出力" class="button"
+				onclick="location.href='/item600/'"><BR>
+		</TD>
+	</TR>
+	<TR>
+		<TH>マスタメンテ</TH>
+		<TD>
+			<input type="button" value = "部署マスタ" class="button"
+				onclick="location.href='/item910/'"><BR>
+			<input type="button" value = "使用者マスタ" class="button"
+				onclick="location.href='/item920/'"><BR>
+			<input type="button" value = "棚マスタ" class="button"
+				onclick="location.href='/item930/'"><BR>
+			<input type="button" value = "仕入先マスタ" class="button"
+				onclick="location.href='/item940/'"><BR>
+			<input type="button" value = "物品マスタ" class="button"
+				onclick="location.href='/item950/'"><BR>
+			<input type="button" value = "科目マスタ" class="button"
+				onclick="location.href='/item970/'">
+		</TD>
+	</TR>
+</TABLE>
+
+<BR>
+<input type="button" value = "終了" class="button"
+				onclick="location.href='/item0000/'">
+</body>
+
+</html>

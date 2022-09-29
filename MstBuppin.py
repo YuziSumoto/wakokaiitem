@@ -6,15 +6,16 @@ from MstTana         import *   # 棚マスタ
 from MstKamoku       import *   # 科目マスタ
 
 class MstBuppin(db.Model):
+  KamokuCD        = db.IntegerProperty()                    # 科目CD
   Code            = db.IntegerProperty()                    # ＣＤ
-  Name            = db.StringProperty(multiline=False)      # 氏名
+  Name            = db.StringProperty(multiline=False)      # 漢字名
+  Kana            = db.StringProperty(multiline=False)      # カナ名
   Tanni1          = db.StringProperty(multiline=False)      # 単位1
   Tanni2          = db.StringProperty(multiline=False)      # 単位2
   Siiresaki       = db.IntegerProperty()                    # 仕入先ＣＤ
-  Tana            = db.IntegerProperty()                    # 棚CD
   Tanka           = db.FloatProperty()                      # 単価
+  Tana            = db.IntegerProperty()                    # 棚CD
   Code2           = db.IntegerProperty()                    # 庶務CD
-  KamokuCD        = db.IntegerProperty()                    # 科目CD
 
   def GetAll(self):
     Sql =  "SELECT * FROM " + self.__class__.__name__
@@ -28,6 +29,18 @@ class MstBuppin(db.Model):
       setattr(Rec,"SiiresakiName",MstSiiresaki().GetRec(Rec.Siiresaki).Name)
       setattr(Rec,"TanaName",MstTana().GetRec(Rec.Tana).Name)
       setattr(Rec,"Kamoku",MstKamoku().GetRec(Rec.KamokuCD).Name)
+
+    return Recs
+  # 科目指定取得
+  def GetKamoku(self,Kamoku):
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql += " Where KamokuCD = " + Kamoku
+    Sql += " Order By KamokuCD,Kana"
+    Snap = db.GqlQuery(Sql)
+    if Snap.count() == 0:
+      Recs = {}
+    else:
+      Recs = Snap.fetch(Snap.count())
 
     return Recs
 

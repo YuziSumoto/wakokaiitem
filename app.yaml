@@ -1,5 +1,5 @@
-application: wakokaiitem
-version: 1
+# application: wakokaiitem
+# version: 1
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -9,13 +9,24 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-# メニュー
+# 新メニュー
+- url: /item0000/.*
+  script: item0000.app
+# 発注画面
+- url: /item0100/.*
+  script: item0100.app
+# マスタメンテメニュー
+- url: /item9000/.*
+  script: item9000.app
+
+# 旧メニュー
 - url: /item000/.*
   script: item000.app
 
 # 定期発注画面
 - url: /item100/.*
   script: item100.app
+
 # 定期発注明細画面
 - url: /item110/.*
   script: item110.app

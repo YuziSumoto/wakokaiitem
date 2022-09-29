@@ -1,0 +1,10 @@
+D:
+CD D:\GAE_GitHub\wakokaiitem
+
+gcloud config set project wakokaiitem
+
+gcloud app deploy
+
+# gcloud app deploy index.yaml
+
+pause

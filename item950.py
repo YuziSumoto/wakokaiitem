@@ -50,6 +50,7 @@ class MainHandler(webapp2.RequestHandler):
       Rec = MstBuppin()
       Rec.Code      = int(self.request.get('Code'))
       Rec.Name      = self.request.get('Name')
+      Rec.Kana      = self.request.get('Kana')
       Rec.Siiresaki = int(self.request.get('Siiresaki'))
       Rec.Tanni1    = self.request.get('Tanni1')
       Rec.Tanni2    = self.request.get('Tanni2')

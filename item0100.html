@@ -1,0 +1,105 @@
+<html>
+<head>
+  <style type="text/css">
+    SELECT  {font-size:LARGE}
+    .text   {font-size:XX-LARGE}
+    .button {font-size:XX-LARGE}
+    .table  {able-layout: fixed}
+		TH {background-color: lightcyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  800px;
+			height: 300px;
+			border: 1px double #000000; 
+		}
+		.Col1 {width:150px;}
+		.Col2 {width:250px;}
+		.Col3 {width:300px;}
+		.Col4 {width: 60px;}
+		.Col5 {width:103px;}
+		.Col6 {width: 30px;}
+  </style>
+
+	<title>消耗品発注 ITEM100</title>
+</head>
+
+<body>
+	<form name="Main" action="/item0100/" method="post" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH class="Col1">部署</TH>
+		<TH class="Col1">発注日</TH>
+		<TD class="Col2" rowspan="2">提出 10:30迄 受渡 14:00～</TD>
+	</TR>
+	<TR>
+		<TD>{{ Rec.BusyoName }}</TD>
+		<TD>{{ Rec.Hizuke }}</TD>
+	</TR>
+</TABLE>
+科目：
+	<select name="Kamoku" onchange="location.href=value;">
+		{% for Rec in MstKamoku %} 
+			<OPTION value="/item0100/?Kamoku={{ Rec.Code }}"
+			{% if Kamoku == Rec.Code %} selected {% endif %}
+			>{{ Rec.Name}}
+		{% endfor %}
+	</select>
+
+<TABLE border="1">
+	<TR>
+		<TH class="Col3">品名</TH>
+		<TH class="Col5">数量</TH>
+		<TH class="Col4">単位</TH>
+		<TH class="Col5">数量</TH>
+		<TH class="Col4">単位</TH>
+		<TH class="Col5">備考</TH>
+	</TR>
+</TABLE>
+<DIV class="scr">
+	<TABLE border="1">
+		<TR style="visibility: collapse;">
+		<TH class="Col3">品名</TH>
+		<TH class="Col6">数量</TH>
+		<TH class="Col6">数量</TH>
+		<TH class="Col6">数量</TH>
+		<TH class="Col4">単位</TH>
+		<TH class="Col6">数量</TH>
+		<TH class="Col6">数量</TH>
+		<TH class="Col6">数量</TH>
+		<TH class="Col4">単位</TH>
+		<TH class="Col5">備考</TH>
+		</TR>
+			{% for DataRec in DataRecs %} 
+				<TR>
+					<TD>{{ DataRec.Name }}					</TD>
+					<TD><input type="submit" style="WIDTH:30px" value = "＋"></TD>
+					<TD>{{ DataRec.Suryo1 }}</TD>
+					<TD><input type="submit" style="WIDTH:30px" value = "－"></TD>
+					<TD>{{ DataRec.Tanni1 }}</TD>
+					<TD><input type="submit" style="WIDTH:30px" value = "＋"></TD>
+					<TD>{{ DataRec.Suryo2 }}</TD>
+					<TD><input type="submit" style="WIDTH:30px" value = "－"></TD>
+					<TD>{{ DataRec.Tanni2 }}</TD>
+					<TD>{{ DataRec.Bikou }}</TD>
+				</TR>
+			{% endfor %}
+	</TABLE>
+</DIV>
+
+
+<BR><BR><BR>
+
+　
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/item0000/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

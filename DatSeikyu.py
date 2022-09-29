@@ -7,6 +7,8 @@ class DatSeikyu(db.Model):
   BusyoCode         = db.IntegerProperty()                    # 部署CD
   BuppinCode        = db.IntegerProperty()                    # 物品CD
   Suryo             = db.IntegerProperty()                    # 数量
+  Suryo1            = db.IntegerProperty()                    # 第１単数量
+  Suryo2            = db.IntegerProperty()                    # 第２単位数量
   Bikou             = db.StringProperty(multiline=False)      # 備考
 
   def GetRec(self,Hizuke,BusyoCode,BuppinCode):

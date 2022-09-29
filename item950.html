@@ -6,15 +6,18 @@
     INPUT   {font-size:X-LARGE}
 		INPUT[type="button"]{font-size:XX-LARGE}
 		INPUT[type="submit"]{font-size:XX-LARGE}
-		.ListButton {width:48px;}
-		TABLE  {table-layout: fixed}
-		TH {background-color: cyan;}
+		.ListButton {font-size:LARGE;width:48px;}
+		.ListButton2 {font-size:LARGE;width:100px;}
+		TABLE {table-layout:fixed;border:1px solid;}
+		TH {background-color:lightcyan;border:1px solid;}
+		TD {border:1px solid;}
 		.scr {
 			overflow-y: scroll;   /* スクロール表示 */ 
 			width:  1050px;
 			height: 300px;
 			border: 1px double #000000; 
 		}
+		.Col1 {width:  100px;}
   </style>
 
 	<title>和恒会物品管理(item950)</title>
@@ -23,9 +26,9 @@
 <body>
 	<form name="MAIN" action="/item950/" method="post" style="font-size:X-LARGE">
 <!--  一覧部 -->
-  <table border="1">
+  <TABLE>
 		<TR>
-			<TH Width="50px">コード</TH>
+			<TH class="Col1">コード</TH>
 			<TH Width="200px">名前</TH>
 			<TH Width="100px">仕入先</TH>
 			<TH Width="50px">単位1</TH>
@@ -41,23 +44,23 @@
 
 	<DIV class="scr">
 		<table border="1">
-			<TR Height="1"> <!-- # 枠幅設定用行なので高さは０ -->
-				<TD Width="52px" style="border-style:none"></TD>
-				<TD Width="202px" style="border-style:none"></TD>
-				<TD Width="102px" style="border-style:none"></TD>
-				<TD Width="52px" style="border-style:none"></TD>
-				<TD Width="52px" style="border-style:none"></TD>
-				<TD Width="102px" style="border-style:none"></TD>
-				<TD Width="102px" style="border-style:none"></TD>
-				<TD Width="102px" style="border-style:none"></TD>
-				<TD Width="102px" style="border-style:none"></TD>
-				<TD Width="52px" style="border-style:none"></TD>
-				<TD Width="52px" style="border-style:none"></TD>
+			<TR style="visibility: collapse;"> <!-- # 枠幅設定用行なので高さは０ -->
+				<TD class="Col1"></TD>
+				<TD Width="202px"></TD>
+				<TD Width="102px"></TD>
+				<TD Width="52px"></TD>
+				<TD Width="52px"></TD>
+				<TD Width="102px"></TD>
+				<TD Width="102px"></TD>
+				<TD Width="102px"></TD>
+				<TD Width="102px"`"></TD>
+				<TD Width="52px"></TD>
+				<TD Width="52px"></TD>
 			</TR>
 			{% for RecMst in Snap %} 
 				<TR>
-					<TD> <!-- 選択ボタン -->
-						<input class="ListButton" style="font-size:LARGE" type='submit' value = '{{ RecMst.Code }}' name='BtnSel' >
+					<TH>
+						<input class="ListButton2"  style="font-size:LARGE" type='submit' value='{{ RecMst.Code }}' name='BtnSel' >
 					</TH>
 					<TD>{{ RecMst.Name}}</TD>
 					<TD>{{ RecMst.SiiresakiName}}</TD>
@@ -79,22 +82,22 @@
 	</DIV> 
 <!--  登録部 -->
     <table border="1" style="font-size:LARGE">
-			<TR> <!-- # 枠幅設定用行なので高さは０ -->
-				<TD Height="0" Width="100px" style="border-style:none">
-         </TH>
-				<TD Height="0" Width="200px" style="border-style:none">
-			</TR>
-
 			<TR>
-				<TH>コード</TH>
+				<TH class="Col1">コード</TH>
 				<TD>
-					<input type="number" min="1" max="999" value="{{ Rec.Code }}" name="Code" />
+					<input type="number" min="1" max="99999" value="{{ Rec.Code }}" name="Code" />
 				</TD>
 			</TR>
 			<TR>
 				<TH>名称</TH>
 				<TD>
 					<input value="{{ Rec.Name }}" name="Name"/>
+				</TD>
+			</TR>
+			<TR>
+				<TH>カナ名</TH>
+				<TD>
+					<input value="{{ Rec.Kana|default_if_none:"" }}" name="Kana"/>
 				</TD>
 			</TR>
 			<TR>
@@ -136,13 +139,13 @@
 			<TR>
 				<TH>庶務CD</TH>
 				<TD>
-					<input value="{{ Rec.Code2 }}" name="Code2" size="10" />
+					<input value="{{ Rec.Code2|default_if_none:"" }}" name="Code2" size="10" />
 				</TD>
 			</TR>
 			<TR>
 				<TH>単価</TH>
 				<TD>
-					<input value="{{ Rec.Tanka }}" name="Tanka" size="10" />
+					<input value="{{ Rec.Tanka|default_if_none:"" }}" name="Tanka" size="10" />
 				</TD>
 			</TR>
 			<TR>
@@ -161,9 +164,9 @@
 
 <BR>
 
-<input type="button" value="中止" onclick="location.href='/'">
-　　
 <input type="submit" value = "更新" name="BtnEnd" class="button">
+　　
+<input type="button" value="終了" onclick="location.href='/'">
 
 <BR>
 
