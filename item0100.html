@@ -4,23 +4,24 @@
     SELECT  {font-size:LARGE}
     .text   {font-size:XX-LARGE}
     .button {font-size:XX-LARGE}
-    .table  {able-layout: fixed}
+    TABLE   {table-layout:fixed;width:750px;}
 		TH {background-color: lightcyan;}
 		.scr {
 			overflow-y: scroll;   /* スクロール表示 */ 
-			width:  800px;
-			height: 300px;
+			width:  850px;
+			height: 500px;
 			border: 1px double #000000; 
 		}
 		.Col1 {width:150px;}
-		.Col2 {width:250px;}
-		.Col3 {width:300px;}
+		.Col2 {width:200px;}
+		.Col3 {width:300px;font-size:LARGE;}
 		.Col4 {width: 60px;}
 		.Col5 {width:103px;}
 		.Col6 {width: 30px;}
+		.Col7 {width: 97px;}
   </style>
 
-	<title>消耗品発注 ITEM100</title>
+	<title>消耗品発注 ITEM0100</title>
 </head>
 
 <body>
@@ -45,13 +46,18 @@
 			>{{ Rec.Name}}
 		{% endfor %}
 	</select>
+	{% if Sime != 1 %} 
+		<input type="button" value = "名称検索"
+			  onclick="location.href='/item0120/?Busyo={{ Rec.Busyo }}&Hizuke={{ Rec.Hizuke }}'">
+	{% endif %} 
 
 <TABLE border="1">
 	<TR>
+		<TH class="Col4">コード</TH>
 		<TH class="Col3">品名</TH>
-		<TH class="Col5">数量</TH>
+		<TH class="Col7">数量</TH>
 		<TH class="Col4">単位</TH>
-		<TH class="Col5">数量</TH>
+		<TH class="Col7">数量</TH>
 		<TH class="Col4">単位</TH>
 		<TH class="Col5">備考</TH>
 	</TR>
@@ -59,45 +65,85 @@
 <DIV class="scr">
 	<TABLE border="1">
 		<TR style="visibility: collapse;">
+		<TH class="Col4">コード</TH>
 		<TH class="Col3">品名</TH>
-		<TH class="Col6">数量</TH>
-		<TH class="Col6">数量</TH>
-		<TH class="Col6">数量</TH>
+		<TH class="Col4">数量</TH>
+		<TH class="Col6">▲▼</TH>
 		<TH class="Col4">単位</TH>
-		<TH class="Col6">数量</TH>
-		<TH class="Col6">数量</TH>
-		<TH class="Col6">数量</TH>
+		<TH class="Col4">数量</TH>
+		<TH class="Col6">▲▼</TH>
 		<TH class="Col4">単位</TH>
 		<TH class="Col5">備考</TH>
 		</TR>
 			{% for DataRec in DataRecs %} 
 				<TR>
-					<TD>{{ DataRec.Name }}					</TD>
-					<TD><input type="submit" style="WIDTH:30px" value = "＋"></TD>
-					<TD>{{ DataRec.Suryo1 }}</TD>
-					<TD><input type="submit" style="WIDTH:30px" value = "－"></TD>
+					<TD>
+						{% if Sime == 1 %} 
+							{{ DataRec.Code }}
+						{% else %} 
+		  				<input type="button" class="Col4" value = "{{ DataRec.Code }}"
+								  onclick="location.href='/item0110/?Busyo={{ Rec.Busyo }}&Hizuke={{ Rec.Hizuke }}&Code={{ DataRec.Code }}'">
+						{% endif %} 
+					</TD>
+					<TD>
+	  				{{ DataRec.Name }}
+					</TD>
+					<TD>{{ DataRec.Suryo1|default_if_none:"" }}</TD>
+					<TD>
+						{% if Sime == 1 %} 
+							　
+						{% else %} 
+							<input type="button" class="Col6" value = "▲"
+								  onclick="location.href='/item0100/?Code={{ DataRec.Code }}&SURYO=1&MODE=PLUS'">
+							<input type="button" class="Col6" value = "▼"
+								  onclick="location.href='/item0100/?Code={{ DataRec.Code }}&SURYO=1&MODE=MINUS'">
+						{% endif %} 
+					</TD>
 					<TD>{{ DataRec.Tanni1 }}</TD>
-					<TD><input type="submit" style="WIDTH:30px" value = "＋"></TD>
-					<TD>{{ DataRec.Suryo2 }}</TD>
-					<TD><input type="submit" style="WIDTH:30px" value = "－"></TD>
-					<TD>{{ DataRec.Tanni2 }}</TD>
-					<TD>{{ DataRec.Bikou }}</TD>
+					{% if DataRec.Tanni2  ==  "" %}
+						<TD></TD>
+						<TD></TD>
+						<TD></TD>
+					{% else %}
+						<TD>{{ DataRec.Suryo2|default_if_none:"" }}</TD>
+						<TD>
+						{% if Sime == 1 %} 
+							　
+						{% else %} 
+							<input type="button" class="Col6" value = "▲"
+								  onclick="location.href='/item0100/?Code={{ DataRec.Code }}&SURYO=2&MODE=PLUS'">
+							<input type="button" class="Col6" value = "▼"
+								  onclick="location.href='/item0100/?Code={{ DataRec.Code }}&SURYO=2&MODE=MINUS'">
+						{% endif %} 
+						</TD>
+						<TD>{{ DataRec.Tanni2|default_if_none:"" }}</TD>
+					{% endif %}
+					<TD>{{ DataRec.Bikou|default_if_none:"" }}</TD>
 				</TR>
 			{% endfor %}
 	</TABLE>
 </DIV>
 
+<p	class="LblMsg">
 
-<BR><BR><BR>
+	{% if Sime == 1 %} 
+		締め処理終了しております。新規入力はできません。
+	{% endif %} 
 
+{{ LblMsg }}</p>
+
+	<input type="button" value = "前回" class="button"
+	{% if PrevDay  == 0  %} Disabled 					{% endif %}
+ 	 onclick="location.href='/item0100/?Hizuke={{ PrevDay }}'">
+　
+<input type="button" value = "次回" class="button"
+	{% if NextDay  == 0  %} Disabled 					{% endif %}
+  onclick="location.href='/item0100/?Hizuke={{ NextDay }}'">
 　
 <input type="button" value = "終了" class="button"
-  onclick="location.href='/item0000/'"><BR>
+  onclick="location.href='/item0000/'">
 	
 <BR>
-
-<p	class="LblMsg">{{ LblMsg }}</p>
-
 
 </form>
 </body>

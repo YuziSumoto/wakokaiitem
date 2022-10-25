@@ -40,6 +40,22 @@ indexes:
 
 - kind: MstBuppin
   properties:
+  - name: KamokuCD
+  - name: Name
+
+- kind: MstBuppin
+  properties:
+  - name: KamokuCD
+  - name: YukoFlg
+  - name: Kana
+
+- kind: MstBuppin
+  properties:
+  - name: KamokuCode
+  - name: Name
+
+- kind: MstBuppin
+  properties:
   - name: Siiresaki
   - name: Code
 
@@ -48,9 +64,32 @@ indexes:
   - name: SiiresakiCD
   - name: Code
 
+- kind: MstBuppin
+  properties:
+  - name: YukoFlg
+  - name: KamokuCD
+  - name: Name
+
+- kind: MstBuppin
+  properties:
+  - name: YukoFlg
+  - name: KamokuCode
+  - name: Name
+
 - kind: MstBusyo
   properties:
   - name: __key__
+    direction: desc
+
+- kind: MstHizuke
+  properties:
+  - name: Busyo
+  - name: Hizuke
+
+- kind: MstHizuke
+  properties:
+  - name: Busyo
+  - name: Hizuke
     direction: desc
 
 - kind: MstSiyousya

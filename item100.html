@@ -49,6 +49,7 @@
 -->
 	</TR>
 </TABLE>
+
 <DIV class="scr">
 	<TABLE border="1">
 		<TR>
@@ -85,8 +86,13 @@
   onclick="location.href='/'"><BR>
 	
 <BR>
-
-<p	class="LblMsg">{{ LblMsg }}</p>
+{{ Sime }}
+<BR>
+<p	class="LblMsg">
+	{% if Sime == 1 %} 
+		締め処理終了しております。新規入力はできません。
+	{% endif %} 
+{{ LblMsg }}</p>
 
 
 </form>

@@ -13,8 +13,9 @@ import datetime
 from MstBusyo   import *   # 部署マスタ
 from MstKamoku  import *   # 科目マスタ
 from MstBuppin  import *   # 物品マスタ
+from MstHizuke  import *   # 請求日マスタ
 
-from DatHizuke  import *   # 請求日付データ
+from DatSime    import *   # 請求日付データ
 from DatSeikyu  import *   # 請求データ
 
 class MainHandler(webapp2.RequestHandler):
@@ -29,28 +30,44 @@ class MainHandler(webapp2.RequestHandler):
     cookieStr = 'Busyo=' + str(Busyo) + ';'     # Cookie保存
     self.response.headers.add_header('Set-Cookie', cookieStr.encode('shift-jis'))
 
-    Kamoku = self.request.get('Kamoku',self.request.cookies.get('Kamoku', '10')) # Cookieより
+    Kamoku = self.request.get('Kamoku',self.request.cookies.get('Kamoku', '11')) # Cookieより
     cookieStr = 'Kamoku=' + str(Kamoku) + ';'     # Cookie保存
     self.response.headers.add_header('Set-Cookie', cookieStr.encode('shift-jis'))
 
-    Hizuke = self.request.get('Hizuke',datetime.datetime.now().strftime('%Y/%m/%d'))
+    Hizuke = self.request.get('Hizuke',self.request.cookies.get('Hizuke', ''))
     cookieStr = 'Hizuke=' + Hizuke + ';'     # Cookie保存
     self.response.headers.add_header('Set-Cookie', cookieStr.encode('shift-jis'))
 
-    DataRecs = MstBuppin().GetKamoku(Kamoku)
-    WkSeikyu = DatSeikyu()
-    for DataRec in DataRecs:
-      RecSeikyu = WkSeikyu.GetRec(datetime.datetime.strptime(Hizuke, '%Y/%m/%d'),Busyo,DataRec.Code)
-      if RecSeikyu == {}:
-        setattr(DataRec,"Suryo","")
-      else:
-        setattr(DataRec,"Suryo",RecSeikyu.Suryo)
-        setattr(DataRec,"Bikou",RecSeikyu.Bikou)
+    if self.request.get('Code',"") != "": # 増減ボタン押下時
+      DatSeikyu().ModRec(Hizuke,Busyo,self.request.get('Code',""),self.request.get('SURYO',""),self.request.get('MODE',""))
 
+    DataRecs = MstBuppin().GetKamoku(Kamoku,True)
+    SnapSeikyu = DatSeikyu().GetSnap(Hizuke,Busyo)
+    for DataRec in DataRecs:
+      setattr(DataRec,"Suryo1","")
+      setattr(DataRec,"Suryo2","")
+      setattr(DataRec,"Bikou","")
+      for SeikyuRec in SnapSeikyu:
+        if SeikyuRec.BuppinCode == DataRec.Code:
+          setattr(DataRec,"Suryo1",SeikyuRec.Suryo1)
+          setattr(DataRec,"Suryo2",SeikyuRec.Suryo2)
+          setattr(DataRec,"Bikou",SeikyuRec.Bikou)
+
+    Rec["Busyo"]     = Busyo
     Rec["BusyoName"] = MstBusyo().GetRec(Busyo).Name
-    Rec["Hizuke"] = Hizuke
+    Rec["Hizuke"]    = Hizuke
+
+    if Hizuke < datetime.datetime.now().strftime('%Y/%m/%d'): #今日以前
+      Sime = True # 締め処理後
+    elif DatSime().GetRec(Hizuke,Busyo).SimeNitizi == None:
+      Sime = False # 締め処理後
+    else:
+      Sime = True # 締め処理後
 
     template_values = { 'Rec'       :Rec,
+                        'Sime'      :Sime,
+                        'PrevDay'   :MstHizuke().GetPrev(Hizuke,Busyo),
+                        'NextDay'   :MstHizuke().GetNext(Hizuke,Busyo),
                         'MstKamoku' :MstKamoku().GetAll2(),
                         'Kamoku'    :int(Kamoku),
                         'DataRecs'  :DataRecs,

@@ -1,0 +1,98 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button2{font-size:LARGE;width:200px}
+    .button {font-size:XX-LARGE}
+    .Col1 {width:200px;}
+    select  {font-size:LARGE}
+    TABLE  {table-layout:fixed}
+		TH {font-size:LARGE;background-color: lightcyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  650px;
+			height: 300px;
+			border: 1px double #000000; 
+		}
+  </style>
+
+	<title>締め処理(ITEM0600)</title>
+</head>
+
+<body>
+	<form action="/item0600/"  method="post"  style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR style="visibility: collapse;">
+		<TD class="Col1"></TD>
+		<TD class="Col1"></TD>
+		<TD class="Col1"></TD>
+	</TR>
+	<TR>
+		<TH class="Col1">伝票日付</TH>
+		<TD colspan="2">{{ Hizuke }}</TD>
+	</TR>
+	<TR>
+		<TH class="Col1">部署</TH>
+		<TH class="Col1">締め日時</TH>
+		<TH class="Col1">印刷日時</TH>
+	</TR>
+</TABLE>
+<DIV class="scr">
+	<TABLE border="1">
+		<TR style="visibility: collapse;">
+			<TD class="Col1"></TD>
+			<TD class="Col1"></TD>
+			<TD class="Col1"></TD>
+		</TR>
+		{% for Rec in Snap %} 
+			<TR>
+				<TD>{{ Rec.Name}}</TD>
+				<TD>{# 締めボタン #}
+					{% if Rec.HattyuBi == "YES" %}	{# 発注日 #}
+						{% if Rec.SimeNitizi %}	{# 締め済 #}
+							<input type="button" value = "{{ Rec.SimeNitizi|date:"Y/m/d H:i:s" }}" class="button2"
+ 	 						onclick="location.href='/item0600/?SIME=OFF&BUSYO={{ Rec.Code }}'">
+						{% else %} 	{# 締め前 #}
+							<input type="button" value = "締め実施" class="button2"
+ 	 						onclick="location.href='/item0600/?SIME=ON&BUSYO={{ Rec.Code }}'">
+						{% endif %}
+					{% endif %}
+				</TD>
+				<TD>
+					{% if Rec.HattyuBi == "YES" %}	{# 発注日 #}
+						{% if Rec.SimeNitizi %} {# 締め済み #}
+							<input type='button' class="button2"
+							{% if Rec.InsatuNitizi %} {# 印刷済 #}
+									value= "{{ Rec.InsatuNitizi|date:"Y/m/d H:i:s" }}"
+							{% else %}
+									value= "印刷実行"
+							{% endif %}
+									onclick="window.open('/item0610/?HIZUKE={{ Hizuke }}&BUSYO={{ Rec.Code }}')">
+						{% endif %}
+					{% endif %}
+				</TD>
+			</TR>
+		{% endfor %}
+	</TABLE>
+</DiV>
+
+<BR>
+<input type="button" value = "前日" class="button"
+  onclick="location.href='/item0600/?Hizuke={{ Zenzitu }}'">
+　
+<input type="button" value = "翌日" class="button"
+  onclick="location.href='/item0600/?Hizuke={{ Yokuzitu }}'">
+　
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/item0000/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

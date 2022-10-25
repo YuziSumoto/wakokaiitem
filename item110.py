@@ -67,7 +67,7 @@ class MainHandler(webapp2.RequestHandler):
 
     template_values = { 'Rec'       :Rec,
                         'LblMsg'    : ""}
-    path = os.path.join(os.path.dirname(__file__), 'item110.html')
+    path = os.path.join(os.path.dirname(__file__), 'item0110.html')
     self.response.out.write(template.render(path, template_values))
 
   def post(self):
@@ -89,10 +89,10 @@ class MainHandler(webapp2.RequestHandler):
       RecSeikyu.AddRec(RecSeikyu)
     
     Parm = "?BusyoCode=" + str(RecSeikyu.BusyoCode) # Cookieより
-    self.redirect("/item100/" + Parm) #
+    self.redirect("/item0100/" + Parm) #
     return
 
 app = webapp2.WSGIApplication([
-    ('/item110/', MainHandler),
+    ('/item0110/', MainHandler),
     ('/', MainHandler)
 ], debug=True)

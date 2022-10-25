@@ -1,0 +1,80 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+    SELECT   {font-size:X-LARGE;width:80px}
+  </style>
+
+	<title>物品定期発注明細(ITEM0110)</title>
+</head>
+
+<body>
+	<form action="/item0110/" method="post"  style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">発注日</TH>
+		<TD style="width:300px">{{ Hizuke }}</TD>
+	<TR>
+	</TR>
+		<TH>品名</TH>
+		<TD>{{ RecMst.Name }}</TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">定数・限度数</TH>
+		<TD style="width:50px" class="text">
+			{{ RecTeisu.Teisu }}
+		</TD>
+		<TD>
+		</TD>
+	</TR>
+	<TR>
+		<TH>数量</TH>
+		<TD>
+			<input type="number" min="0" max="999" value="{{ Rec.Suryo1 }}" name="Suryo1" class="text" />
+		</TD>
+		<TD>
+			{{ RecMst.Tanni1|default_if_none:"" }}
+		</TD>
+	</TR>
+	{% if  RecMst.Tanni2 or "" != "" %}
+		<TR>
+			<TH>数量</TH>
+			<TD>
+				<input type="number" min="0" max="999" value="{{ Rec.Suryo2 }}" name="Suryo2" class="text" />
+			</TD>
+			<TD>
+				{{ RecMst.Tanni2|default_if_none:"" }}
+			</TD>
+		</TR>
+	{% endif %}
+	<TR>
+		<TH>備考</TH>
+		<TD colspan="2">
+			<input value="{{ Rec.Bikou|default_if_none:"" }}" name="Bikou" maxlength="20" class="text" />
+		</TD>
+	</TR>
+
+</TABLE>
+
+
+<BR><BR><BR>
+<input type="button" value = "中止" class="button"
+  onclick="location.href='/item0100/?Kamoku={{ RecMst.KamokuCD }}'">
+　　　　
+<input type="submit" value = "決定" class="button"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

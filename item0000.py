@@ -12,7 +12,7 @@ from google.appengine.api import users
 import datetime
 
 from MstBusyo   import *   # 部署マスタ
-from DatHizuke  import *   # 発注日マスタ
+from MstHizuke  import *   # 発注日マスタ
 
 class MainHandler(webapp2.RequestHandler):
 
@@ -21,10 +21,29 @@ class MainHandler(webapp2.RequestHandler):
   def get(self):
 
     LblMsg = ""
- 
-    Busyo = int(self.request.cookies.get('Busyo', '3'))
+    
+    Busyo = self.request.get('Busyo',self.request.cookies.get('Busyo', '3')) # Cookieより
 
-    template_values = { 'Busyo'    : Busyo,
+    Hizuke = datetime.datetime.now().strftime('%Y/%m/%d') # 今日
+
+    NextDay = MstHizuke().GetNext(Hizuke,Busyo)
+
+    if NextDay == False:
+      LblMsg += u"次回発注日は未定です。"
+    else:
+      LblMsg += u"次回発注日は" + NextDay + u"です。"
+
+    if NextDay != False:
+      Hizuke = NextDay
+    else:
+      PrevDay = MstHizuke().GetPrev(Hizuke,Busyo)
+      if PrevDay != False:
+        Hizuke = PrevDay
+      else:
+        Huzuke = False
+
+    template_values = { 'Busyo'    : int(Busyo),
+                        'Hizuke'   : Hizuke,
                         'MstBusyo' : MstBusyo().GetAll(),
                         'LblMsg'   : LblMsg}
     path = os.path.join(os.path.dirname(__file__), 'item0000.html')
@@ -36,18 +55,7 @@ class MainHandler(webapp2.RequestHandler):
 
     Busyo = int(self.request.get('BusyoCD',"0"))
 
-    if self.request.get('BtnSeikyu')  != '':
-      Parm = "?BusyoCode=" + Busyo
-      self.redirect("/item100/" + Parm)
-      return
-
-    template_values = { 'Busyo'    : Busyo,
-                        'MstBusyo' : MstBusyo().GetAll(),
-                        'LblMsg'   : LblMsg}
-    path = os.path.join(os.path.dirname(__file__), 'item0000.html')
-
-    self.response.headers.add_header('Set-Cookie', 'Busyo=%s;' % str(Busyo))
-    self.response.out.write(template.render(path, template_values))
+    self.redirect("/item0000/?Busyo=" + self.request.get('BusyoCD',"")) # 部署変更
 
     return
 

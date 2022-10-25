@@ -1,0 +1,130 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    SELECT  {font-size:X-LARGE}
+    INPUT   {font-size:X-LARGE}
+		.Button {font-size:XX-LARGE}
+		INPUT[type="submit"]{font-size:XX-LARGE}
+		.ListButton  {font-size:LARGE;width:48px;}
+		.ListButton2 {font-size:LARGE;width:100px;}
+		TABLE {table-layout:fixed;border:1px solid;}
+		TH {background-color:lightcyan;border:1px solid;}
+		TD {border:1px solid;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  780px;
+			height: 600px;
+			border: 1px double #000000; 
+		}
+		.Col1 {width:  100px;}
+  </style>
+
+	<title>物品マスタメンテ(item9050)</title>
+</head>
+
+<body>
+	<form action="/item9050/" method="post" style="font-size:X-LARGE">
+
+	科目：
+		<select name="Kamoku" onchange="location.href=value;">
+			{% for Rec in MstKamoku %} 
+				<OPTION value="/item9050/?Kamoku={{ Rec.Code }}"
+				{% if Kamoku == Rec.Code %} selected {% endif %}
+				>{{ Rec.Name}}
+			{% endfor %}
+		</select>
+
+<!--  一覧部 -->
+  <TABLE>
+		<TR>
+			<TH class="Col1">コード</TH>
+			<TH Width="200px">名前</TH>
+			<TH Width="100px">仕入先</TH>
+			<TH Width="50px">単位1</TH>
+			<TH Width="50px">単位2</TH>
+			<TH Width="100px">棚</TH>
+			<TH Width="100px">無効</TH>
+<!--
+			<TH Width="100px">庶務CD</TH>
+			<TH Width="100px">単価</TH>
+			<TH Width="100px">勘定科目</TH>
+			<TH Width="50px">削除</TH>
+			<TH Width="50px">定数<BR>限度数</TH>
+-->
+		</TR>
+	</table>
+	<DIV class="scr">
+		<table border="1">
+			<TR style="visibility: collapse;"> <!-- # 枠幅設定用行なので高さは０ -->
+				<TD class="Col1"></TD>
+				<TD Width="200px"></TD>
+				<TD Width="100px"></TD>
+				<TD Width="50px"></TD>
+				<TD Width="50px"></TD>
+				<TD Width="100px"></TD>
+<!--				<TD Width="102px"></TD>
+				<TD Width="102px"></TD>
+				<TD Width="102px"`"></TD>
+				<TD Width="52px"></TD>
+<!--				<TD Width="52px"></TD> -->
+			</TR>
+			{% for RecMst in Snap %} 
+				<TR
+						{% if RecMst.YukoFlg == None %} {# 有効:1 無効:0 #}
+								bgcolor="white"
+						{% else %}
+							{% if RecMst.YukoFlg == 1 %}
+								bgcolor="white"
+							{% else %}
+								bgcolor="gray"
+							{% endif %}
+						{% endif %}
+				  >
+					<TH>
+						<input type="button" class="ListButton2" value="{{ RecMst.Code }}" onclick="location.href='/item9055/?Code={{ RecMst.Code }}'">
+					</TH>
+					<TD>{{ RecMst.Name}}</TD>
+					<TD>{{ RecMst.SiiresakiName}}</TD>
+					<TD>{{ RecMst.Tanni1}}</TD>
+					<TD>{{ RecMst.Tanni2|default_if_none:""}}</TD>
+					<TD>{{ RecMst.TanaName}}</TD>
+<!--
+					<TD>{{ RecMst.Code2|default_if_none:"" }}</TD>
+					<TD>{{ RecMst.Tanka|default_if_none:"" }}</TD>
+					<TD>{{ RecMst.Kamoku|default_if_none:"" }}</TD>
+-->
+					<TD> {# 有効・無効ボタン #}
+						<input type="button" class="ListButton2" 
+							{% if RecMst.YukoFlg == None %} {# 有効:1 無効:0 #}
+								value="無効"   onclick="location.href='/item9050/?Code={{ RecMst.Code }}&YukoFlg=False'">
+							{% else %}
+								{% if RecMst.YukoFlg == 0 %} {# 有効:1 無効:0 #}
+									value="有効"   onclick="location.href='/item9050/?Code={{ RecMst.Code }}&YukoFlg=True'">
+								{% else %}
+									value="無効"   onclick="location.href='/item9050/?Code={{ RecMst.Code }}&YukoFlg=False'">
+								{% endif %}
+							{% endif %}
+					</TD>
+<!--
+					<TD> {# 定数ボタン #}
+						<input class="ListButton" style="font-size:LARGE"  type='submit' value='定数' name='BtnTeisu{{ RecMst.Code }}' >
+					</TD>
+-->
+				</TR>
+			{% endfor %}
+		</table>
+	</DIV> 
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+<input type="button" class="Button" value="CSV取込" onclick="location.href='/item9051/'">
+　
+<input type="button" class="Button" value="新規登録" onclick="location.href='/item9055/?Code=0&Kamoku={{ Kamoku }}'">
+　
+<input type="button" class="Button" value="終了" onclick="location.href='/item9000/'">
+
+
+</form>
+</body>
+
+</html>

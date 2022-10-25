@@ -25,13 +25,18 @@ class MstSiiresaki(db.Model):
     return
 
   def GetRec(self,Code):
+
+    if Code is None:
+      return MstSiiresaki()
+
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql += " Where Code = " + str(Code)
     Snap = db.GqlQuery(Sql)
     if Snap == None:
-      Rec = {}
+      Rec = MstSiiresaki()
     else:
       Rec = Snap.fetch(1)[0]
+
     return Rec
 
   def AddRec(self,Rec):

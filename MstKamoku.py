@@ -2,6 +2,12 @@
 from google.appengine.ext import db
 import datetime
 
+# Csv取込用
+import wsgiref.handlers
+import os
+import csv
+from StringIO import StringIO
+
 class MstKamoku(db.Model):
   Code            = db.IntegerProperty()                    # ＣＤ
   Name            = db.StringProperty(multiline=False)      # 備考
@@ -41,8 +47,8 @@ class MstKamoku(db.Model):
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql += " Where Code = " + str(Code)
     Snap = db.GqlQuery(Sql)
-    if Snap == None:
-      Rec = {}
+    if Snap.count() == 0:
+      Rec = MstKamoku()
     else:
       Rec = Snap.fetch(1)[0]
     return Rec
@@ -50,4 +56,27 @@ class MstKamoku(db.Model):
   def AddRec(self,Rec):
     self.Delete(Rec.Code)
     Rec.put()
-    return 
+    return
+
+  def CSVGet(self,rawfile):
+
+    Msg = ""
+
+    Sql =  "SELECT * FROM " + self.__class__.__name__   # 現データ削除
+    Snap = db.GqlQuery(Sql)
+    for Rec in Snap:
+      Rec.delete()
+
+    csvfile = csv.reader(StringIO(rawfile))
+    for row in csvfile:
+      if unicode(row[0], 'cp932').isnumeric() == True:          
+        Rec = MstKamoku(
+           Code            = int(unicode(row[0], 'cp932'))  # ＣＤ
+          ,Name            = unicode(row[1], 'cp932')       # 漢字名
+        )
+        Rec.put()
+        Msg +=  unicode(row[0], 'cp932') + " "
+        Msg +=  unicode(row[1], 'cp932') + "<BR>"
+      
+    return Msg
+

@@ -1,0 +1,83 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+		.Col1 { width:80px;}
+		.Col2 { width:200px;}
+		.Col3 { width:100px;}
+		.SelButton{ width:75px;font-size:LARGE;}
+		.TxtName  { width:195px;font-size:LARGE;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  450px;
+			height: 600px;
+			border: 4px double #000000; 
+		}
+  </style>
+
+	<title>科目マスタ(item9070)</title>
+</head>
+
+<body>
+	<form action="/item9070/" method="post" style="font-size:X-LARGE">
+<!--  一覧部 -->
+  <table border="1">
+		<TR>
+			<TH class="Col1">コード</TH>
+			<TH class="Col2"">名称</TH>
+			<TH class="Col3">削除</TH>
+		</TR>
+	</table>
+
+	<DIV class="scr">
+	<table border="1">
+		<TR style="visibility: collapse;"> <!-- # 枠幅設定用行なので高さは０ -->
+			<TD class="Col1"></TD>
+			<TD class="Col2"></TD>
+			<TD class="Col3"></TD>
+		</TR>
+		{% for RecMst in Snap %} 
+			<TR>
+				<TD> <!-- 選択ボタン -->
+					<input type='submit' value = '{{ RecMst.Code }}' name='BtnSel' class="SelButton" >
+				</TH>
+				<TD>{{ RecMst.Name}}</TD>
+				<TD> <!-- 削除ボタン -->
+					<input type='submit' value='削除' name='BtnDel{{ RecMst.Code }}'  class="SelButton">
+				</TH>
+			</TR>
+		{% endfor %}
+	</table>
+	</DIV>
+<!--  登録部 -->
+    <table border="1" style="font-size:LARGE">
+			<TR>
+				<TD class="Col1">
+					<input type="number" min="1" max="999" value="{{ Rec.Code }}" name="Code"  class="SelButton" />
+				</TD>
+				<TD class="Col2">
+					<input value="{{ Rec.Name }}" name="Name"  class="TxtName"/>
+				</TD>
+				<TD  class="Col3">
+					<input type="submit" value = "更新" name="BtnEnd"  class="SelButton">
+				</TD>
+			</TR>
+
+		</table>
+
+<BR>
+<input type="button" class="Button" value="CSV取込" onclick="location.href='/item9071/'">
+　
+<input type="button" class="button" value="終了" onclick="location.href='/item0000/'">
+　　
+
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+</form>
+</body>
+
+</html>

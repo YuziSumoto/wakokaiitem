@@ -15,9 +15,41 @@ handlers:
 # 発注画面
 - url: /item0100/.*
   script: item0100.app
+# 発注明細画面
+- url: /item0110/.*
+  script: item0110.app
+# 名称検索画面
+- url: /item0120/.*
+  script: item0120.app
+# 伝票出力
+- url: /item0600/.*
+  script: item0600.app
+# 伝票印刷
+- url: /item0610/.*
+  script: item0610.app
+
 # マスタメンテメニュー
 - url: /item9000/.*
   script: item9000.app
+# 物品マスタ一覧
+- url: /item9050/.*
+  script: item9050.app
+# 物品マスタCSV取込
+- url: /item9051/.*
+  script: item9051.app
+# 物品マスタ更新
+- url: /item9055/.*
+  script: item9055.app
+# 科目マスタ更新
+- url: /item9070/.*
+  script: item9070.app
+# 科目マスタCSV取込
+- url: /item9071/.*
+  script: item9071.app
+
+# 定期発注日指定
+- url: /item9100/.*
+  script: item9100.app
 
 # 旧メニュー
 - url: /item000/.*

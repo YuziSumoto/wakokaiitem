@@ -1,0 +1,124 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    SELECT  {font-size:X-LARGE}
+    INPUT   {font-size:X-LARGE}
+		INPUT[type="button"]{font-size:XX-LARGE}
+		INPUT[type="submit"]{font-size:XX-LARGE}
+		.ListButton {font-size:LARGE;width:48px;}
+		.ListButton2 {font-size:LARGE;width:100px;}
+		TABLE {table-layout:fixed;border:1px solid;}
+		TH {background-color:lightcyan;border:1px solid;}
+		TD {border:1px solid;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  680px;
+			height: 600px;
+			border: 1px double #000000; 
+		}
+		.Col1 {width:  100px;}
+  </style>
+
+	<title>物品マスタメンテ(item9055)</title>
+</head>
+
+<body>
+	<form action="/item9055/" method="post" style="font-size:X-LARGE">
+
+<!--  登録部 -->
+    <table border="1" style="font-size:LARGE">
+			<TR>
+				<TH class="Col1">コード</TH>
+				<TD>
+					<input type="number" min="1" max="99999" value="{{ Rec.Code }}" name="Code" />
+				</TD>
+			</TR>
+			<TR>
+				<TH>名称</TH>
+				<TD>
+					<input value="{{ Rec.Name|default_if_none:"" }}" name="Name"/>
+				</TD>
+			</TR>
+			<TR>
+				<TH>カナ名</TH>
+				<TD>
+					<input value="{{ Rec.Kana|default_if_none:"" }}" name="Kana"/>
+				</TD>
+			</TR>
+			<TR>
+				<TH>仕入先</TH>
+				<TD>
+					<select name="Siiresaki">
+						{% for RecMst in SnapSiiresaki %} 
+							<OPTION value="{{ RecMst.Code }}"
+								{% if Rec.Siiresaki == RecMst.Code  %} Selected {% endif %}
+							>{{ RecMst.Name}}
+						{% endfor %}
+					</select>
+				</TD>
+			</TR>
+			<TR>
+				<TH>単位1</TH>
+				<TD>
+					<input value="{{ Rec.Tanni1|default_if_none:"" }}" name="Tanni1" size="10"  />
+				</TD>
+			</TR>
+			<TR>
+				<TH>単位2</TH>
+				<TD>
+					<input value="{{ Rec.Tanni2|default_if_none:"" }}" name="Tanni2" size="10" />
+				</TD>
+			</TR>
+			<TR>
+				<TH>棚</TH>
+				<TD>
+					<select name="Tana">
+						{% for RecMst in SnapTana %} 
+							<OPTION value="{{ RecMst.Code }}"
+								{% if Rec.Tana == RecMst.Code  %} Selected {% endif %}
+							>{{ RecMst.Name}}
+						{% endfor %}
+					</select>
+				</TD>
+			</TR>
+			<TR>
+				<TH>庶務CD</TH>
+				<TD>
+					<input value="{{ Rec.Code2|default_if_none:"" }}" name="Code2" size="10" />
+				</TD>
+			</TR>
+			<TR>
+				<TH>単価</TH>
+				<TD>
+					<input value="{{ Rec.Tanka|default_if_none:"" }}" name="Tanka" size="10" />
+				</TD>
+			</TR>
+			<TR>
+				<TH>科目</TH>
+				<TD>
+					<select name="KamokuCD">
+						{% for RecMst in SnapKamoku %} 
+							<OPTION value="{{ RecMst.Code }}"
+								{% if Rec.KamokuCD == RecMst.Code  %} Selected {% endif %}
+							>{{ RecMst.Name}}
+						{% endfor %}
+					</select>
+				</TD>
+			</TR>
+		</table>
+
+<BR>
+
+<input type="submit" value = "更新" name="BtnEnd" class="button">
+　　
+<input type="button" value="終了" onclick="location.href='/item9050/'">
+
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+</form>
+</body>
+
+</html>

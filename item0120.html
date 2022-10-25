@@ -1,0 +1,75 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    SELECT  {font-size:X-LARGE}
+    INPUT   {font-size:X-LARGE}
+    .text   {font-size:X-LARGE}
+		.Button {font-size:XX-LARGE}
+		INPUT[type="submit"]{font-size:XX-LARGE}
+		.ListButton  {font-size:LARGE;width:48px;}
+		.ListButton2 {font-size:LARGE;width:100px;}
+		TABLE {table-layout:fixed;border:1px solid;}
+		TH {background-color:lightcyan;border:1px solid;}
+		TD {border:1px solid;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  780px;
+			height: 600px;
+			border: 1px double #000000; 
+		}
+		.Col1 {width:  100px;}
+		.Col2 {width:  200px;}
+		.Col3 {width:   50px;}
+  </style>
+
+	<title>物品一覧(item0120)</title>
+</head>
+
+<body>
+	<form action="/item0120/" method="post" style="font-size:X-LARGE">
+
+	検索文字列：<input value="{{ Kensaku }}" name="Kensaku" class="text" onchange="submit(this.form)" />
+
+<!--  一覧部 -->
+  <TABLE>
+		<TR>
+			<TH class="Col1">コード</TH>
+			<TH class="Col2">科目</TH>
+			<TH class="Col2">名前</TH>
+			<TH class="Col3">単位1</TH>
+			<TH class="Col3">単位2</TH>
+		</TR>
+	</table>
+	<DIV class="scr">
+		<table border="1">
+			<TR style="visibility: collapse;"> <!-- # 枠幅設定用行なので非表示 -->
+				<TD class="Col1"></TD>
+				<TD class="Col2"></TD>
+				<TD class="Col2"></TD>
+				<TD class="Col3"></TD>
+				<TD class="Col3"></TD>
+			</TR>
+			{% for RecMst in Snap %} 
+				<TR>
+					<TH>
+						<input type="button" class="ListButton2" value = "{{ RecMst.Code }}"
+								  onclick="location.href='/item0110/?Busyo={{ Busyo }}&Hizuke={{ Hizuke }}&Code={{ RecMst.Code }}'">
+					</TH>
+					<TD>{{ RecMst.Kamoku}}</TD>
+					<TD>{{ RecMst.Name}}</TD>
+					<TD>{{ RecMst.Tanni1}}</TD>
+					<TD>{{ RecMst.Tanni2|default_if_none:""}}</TD>
+				</TR>
+			{% endfor %}
+		</table>
+	</DIV> 
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+<input type="button" class="Button" value="終了" onclick="location.href='/item0100/'">
+
+
+</form>
+</body>
+
+</html>

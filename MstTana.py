@@ -25,6 +25,10 @@ class MstTana(db.Model):
     return
 
   def GetRec(self,Code):
+
+    if Code is None:
+      return MstTana()
+
     Sql =  "SELECT * FROM MstTana"
     Sql += " Where Code = " + str(Code)
     Snap = db.GqlQuery(Sql)

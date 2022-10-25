@@ -29,7 +29,7 @@ class MstBusyo(db.Model):
     Sql += " Where Code = " + str(Code)
     Snap = db.GqlQuery(Sql)
     if Snap == None:
-      Rec = {}
+      Rec = MstBusyo()
     else:
       Rec = Snap.fetch(1)[0]
     return Rec

@@ -11,6 +11,14 @@ class DatSeikyu(db.Model):
   Suryo2            = db.IntegerProperty()                    # 第２単位数量
   Bikou             = db.StringProperty(multiline=False)      # 備考
 
+  def GetSnap(self,Hizuke,BusyoCode):
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql +=  " Where Hizuke     = DATE('" + Hizuke.replace("/","-") + "')"
+    Sql +=  "  And  BusyoCode  = " + str(BusyoCode)
+    Snap = db.GqlQuery(Sql)
+    Recs = Snap.fetch(Snap.count())
+    return Recs
+
   def GetRec(self,Hizuke,BusyoCode,BuppinCode):
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql +=  " Where Hizuke     = DATE('" + Hizuke.strftime("%Y-%m-%d") + "')"
@@ -22,6 +30,47 @@ class DatSeikyu(db.Model):
     else:
       Recs = Snap.fetch(1)[0]
     return Recs
+
+  def ModRec(self,Hizuke,Busyo,Code,Suryo,Mode):
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql +=  " Where Hizuke     = DATE('" + Hizuke.replace("/","-") + "')"
+    Sql +=  "  And  BusyoCode  = " + str(Busyo)
+    Sql +=  "  And  BuppinCode = " + str(Code)
+    Snap = db.GqlQuery(Sql)
+    if Snap.count() == 0: # レコード無し
+      if Mode == "PLUS":
+        Rec = DatSeikyu()
+        Rec.Hizuke     = datetime.datetime.strptime(Hizuke, '%Y/%m/%d')
+        Rec.BusyoCode  = int(Busyo)
+        Rec.BuppinCode = int(Code)
+        if Suryo == "1":
+          Rec.Suryo1   = 1
+        else:
+          Rec.Suryo2   = 1
+        Rec.put()
+    else:
+      Rec = Snap.fetch(1)[0]
+      if Suryo == "1":
+        if Mode == "PLUS":
+          Rec.Suryo1 = (Rec.Suryo1 or 0) + 1 
+          Rec.put()
+        elif (Rec.Suryo1 == None) or (Rec.Suryo1 == 0):
+          pass
+        else:
+          Rec.Suryo1 = (Rec.Suryo1 or 0) - 1 
+          Rec.put()
+      else: # Suryo2
+        if Mode == "PLUS":
+          Rec.Suryo2 = (Rec.Suryo2 or 0) + 1 
+          Rec.put()
+        elif (Rec.Suryo2 == None) or (Rec.Suryo2 == 0):
+          pass
+        else:
+          Rec.Suryo2 = Rec.Suryo2 - 1 
+          Rec.put()
+      if (Rec.Suryo1 or 0) == 0 and (Rec.Suryo2 or 0) == 0:
+        self.Delete(datetime.datetime.strptime(Hizuke, '%Y/%m/%d'),Busyo,Code)
+    return 
 
   def GetKikan(self,BusyoCode,SHizuke,EHizuke):
     Sql =  "SELECT * FROM " + self.__class__.__name__

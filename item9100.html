@@ -1,0 +1,84 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button2{font-size:LARGE;width:80px}
+    .button {font-size:XX-LARGE}
+    .Col1 {width:200px;}
+    .Col2 {width:80px;}
+    select  {font-size:LARGE}
+    TABLE  {table-layout:fixed}
+		TH {font-size:LARGE;background-color: lightcyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  850px;
+			height: 300px;
+			border: 1px double #000000; 
+		}
+  </style>
+
+	<title>発注日(ITEM9100)</title>
+</head>
+
+<body>
+	<form action="/item9100/" method="post"  style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH class="Col1">部署</TH>
+		{% for Rec in LstHizuke %} 
+			<TH class="Col2">{{ Rec|safe }}</TH>
+		{% endfor %}
+	</TR>
+</TABLE>
+<DIV class="scr">
+	<TABLE border="1">
+		<TR style="visibility: collapse;">
+			<TD class="Col1"></TD>
+			{% for Rec in LstHizuke %} 
+				<TH class="Col2"></TH>
+			{% endfor %}
+		</TR>
+		{% for Rec in Snap %} 
+			<TR>
+				<TD>{{ Rec.Name}}</TD>
+				{% for Rec2 in Rec.SnapHizuke %} 
+					<TD>
+						<input type="button" class="button2"
+						{% if Rec2.Zyotai == 0  %}					{# 締め前 #}
+								value = "　"
+	 							onclick="location.href='/item9100/?Busyo={{ Rec.Code }}&ChgHizuke={{ Rec2.Hizuke }}'">
+						{% endif %}
+						{% if Rec2.Zyotai == 1  %} 	{# 発注日 #}
+								value = "発注日"
+	 							onclick="location.href='/item9100/?Busyo={{ Rec.Code }}&ChgHizuke={{ Rec2.Hizuke }}'">
+						{% endif %}
+						{% if Rec2.Zyotai == 2 %}	{# 締め後 #}
+							value = "締め済" disabled >
+						{% endif %}
+					</TD>
+				{% endfor %}
+			</TR>
+		{% endfor %}
+	</TABLE>
+</DiV>
+
+<BR>
+<input type="button" value = "前日" class="button"
+  onclick="location.href='/item9100/?Hizuke={{ Zenzitu }}'">
+　
+<input type="button" value = "翌日" class="button"
+  onclick="location.href='/item9100/?Hizuke={{ Yokuzitu }}'">
+　
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/item0000/'"><BR>
+	
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

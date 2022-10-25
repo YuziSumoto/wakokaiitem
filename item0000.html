@@ -23,8 +23,11 @@
 {{ LblMsg }}<BR>
 <BR>
 <input type="button" value = "物品請求" class="button"
-	onclick="location.href='/item0100/?Busyo={{ Busyo }}'"><BR>
+	{% if Hizuke  == 0  %} Disabled 					{% endif %}
+	onclick="location.href='/item0100/?Hizuke={{ Hizuke }}&Busyo={{ Busyo }}'"><BR>
 <BR>
+<input type="button" value = "庶務業務" class="button"
+	onclick="location.href='/item9000/'"><BR>
 
 </form>
 </body>
