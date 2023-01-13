@@ -33,6 +33,16 @@ class MstKamoku(db.Model):
       Recs = Snap.fetch(Snap.count())
     return Recs
 
+  def GetDic(self): # 辞書形式取得
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql += " Where Code >= 10"
+    Sql += " Order By Code"
+    Snap = db.GqlQuery(Sql)
+    Dic = {}
+    for Rec in Snap.fetch(Snap.count()):
+      Dic[Rec.Code] = Rec.Name
+    return Dic
+
   def Delete(self,Code):
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql += " Where Code = " + str(Code)

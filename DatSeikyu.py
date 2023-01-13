@@ -10,6 +10,7 @@ class DatSeikyu(db.Model):
   Suryo1            = db.IntegerProperty()                    # 第１単数量
   Suryo2            = db.IntegerProperty()                    # 第２単位数量
   Bikou             = db.StringProperty(multiline=False)      # 備考
+  Kakunin           = db.BooleanProperty()                    # 確認フラグ
 
   def GetSnap(self,Hizuke,BusyoCode):
     Sql =  "SELECT * FROM " + self.__class__.__name__
@@ -87,6 +88,17 @@ class DatSeikyu(db.Model):
     
     return Recs
 
+  def GetKikan2(self,BusyoCode,SHizuke,EHizuke):
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql +=  " Where  Hizuke     >= DATE('" + SHizuke.replace("/","-") + "')"
+    Sql +=  "  And   Hizuke     <=  DATE('" + EHizuke.replace("/","-") + "')"
+    Sql +=  "  And   BusyoCode  = " + str(BusyoCode)
+    Sql +=  " Order By Hizuke "
+    Query = db.GqlQuery(Sql)
+    Snap  = Query.fetch(Query.count())
+
+    return Snap
+
   def Delete(self,Hizuke,BusyoCode,BuppinCode):
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql +=  " Where Hizuke     = DATE('" + Hizuke.strftime("%Y-%m-%d") + "')"
@@ -100,4 +112,20 @@ class DatSeikyu(db.Model):
   def AddRec(self,Rec):
     self.Delete(Rec.Hizuke,Rec.BusyoCode,Rec.BuppinCode)
     Rec.put()
+    return 
+
+  def ModKakunin(self,Hizuke,Busyo,Code): # 確認フラグ更新
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql +=  " Where Hizuke     = DATE('" + Hizuke.replace("/","-") + "')"
+    Sql +=  "  And  BusyoCode  = " + str(Busyo)
+    Sql +=  "  And  BuppinCode = " + str(Code)
+    Snap = db.GqlQuery(Sql)
+    if Snap.count() > 0: # レコードは必ずある!はず
+      Rec = Snap.fetch(1)[0]
+      if Rec.Kakunin == True:
+        Rec.Kakunin = False
+      else:
+        Rec.Kakunin = True
+      Rec.put()
+
     return 

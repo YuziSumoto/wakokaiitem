@@ -6,6 +6,20 @@ from DatSime import * # 締めマスタ
 class MstHizuke(db.Model):
   Hizuke            = db.DateTimeProperty(auto_now_add=False) # 発注日
   Busyo             = db.IntegerProperty()                    # 部署CD
+  Kanrisya          = db.StringProperty(multiline=False)      # 管理者名
+  Hattyuusya        = db.StringProperty(multiline=False)      # 発注者名
+  Kakutei           = db.BooleanProperty()                    # 確定フラグ
+
+  def GetRec(self,Hizuke,Busyo):
+    Sql =  "SELECT * FROM " + self.__class__.__name__
+    Sql +=  " Where Hizuke     = DATE('" + Hizuke.replace("/","-") + "')"
+    Sql +=  "  And  Busyo      = " + str(Busyo)
+    Snap = db.GqlQuery(Sql)
+
+    if Snap.count() == 0:
+      return MstHizuke()
+
+    return Snap.fetch(1)[0]
 
   def ChkRec(self,Hizuke,Busyo):
     Sql =  "SELECT * FROM " + self.__class__.__name__
@@ -18,9 +32,28 @@ class MstHizuke(db.Model):
 
     return True
 
-  def GetWeek(self,Hizuke): # １週間分取得
+  def ModHattyuusya(self,Hizuke,Busyo,Hattyuusya):
+    Rec = MstHizuke().GetRec(Hizuke,Busyo)
+    if Rec.Hizuke == None: # 該当レコード無し
+      pass
+    else:
+      Rec.Hattyuusya = Hattyuusya
+      Rec.put()
+
+    return 
+  def ModKanrisya(self,Hizuke,Busyo,Kanrisya):
+    Rec = MstHizuke().GetRec(Hizuke,Busyo)
+    if Rec.Hizuke == None: # 該当レコード無し
+      pass
+    else:
+      Rec.Kanrisya = Kanrisya
+      Rec.put()
+
+    return 
+
+  def GetKikan(self,Hizuke,Days): # 指定期間分取得
     
-    EndHizuke = datetime.datetime.strptime(Hizuke,"%Y/%m/%d") + datetime.timedelta(days=7)
+    EndHizuke = datetime.datetime.strptime(Hizuke,"%Y/%m/%d") + datetime.timedelta(days=Days)
 
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql +=  " Where Hizuke    >= DATE('" + Hizuke.replace("/","-") + "')"
@@ -29,6 +62,7 @@ class MstHizuke(db.Model):
     return Query.fetch(Query.count())
 
   def GetNext(self,Hizuke,Busyo):
+
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql +=  " Where Hizuke     >= DATE('" + Hizuke.replace("/","-") + "')"
     Sql +=  "  And  Busyo       = " + str(Busyo)

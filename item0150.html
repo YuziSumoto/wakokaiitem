@@ -1,0 +1,125 @@
+<html>
+<head>
+  <style type="text/css">
+    SELECT  {font-size:LARGE}
+    .text   {font-size:XX-LARGE}
+    .button {font-size:XX-LARGE}
+    TABLE   {table-layout:fixed;width:750px;}
+		TH {background-color: lightcyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  850px;
+			height: 500px;
+			border: 1px double #000000; 
+		}
+		.Hizuke {font-size:LARGE;width:120px;}
+		.Col1 {width:150px;}
+		.Col2 {width:200px;}
+		.Col3 {width:300px;font-size:LARGE;}
+		.Col4 {width: 60px;}
+		.Col5 {width:103px;}
+		.Col6 {width: 30px;}
+		.Col7 {width: 97px;}
+  </style>
+
+	<title>請求履歴 ITEM0150</title>
+</head>
+
+<body>
+	<form name="Main" action="/item0150/" method="post" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH class="Col4">部署</TH>
+		<TH class="Col1">期間</TH>
+		<TH class="Col4">検索</TH>
+		<TH class="Col4">条件変更</TH>
+	</TR>
+	<TR>
+		<TD>{{ Rec.BusyoName }}</TD>
+		<TD>
+			<input type="date" value="{{ sHizuke }}" name="sHizuke"  class="Hizuke" />
+			～
+			<input type="date"  value="{{ eHizuke }}" name="eHizuke"  class="Hizuke" />
+		</TD>
+		<TD>
+			<input value="{{ Kensaku }}" name="Kensaku" class="Hizuke" />
+		</TD>
+		<TD>
+			<input type="submit" value = "再検索">
+		</TD>
+	</TR>
+</TABLE>
+
+<!--
+科目：
+	<select name="Kamoku" onchange="location.href=value;">
+		{% for Rec in MstKamoku %} 
+			<OPTION value="/item0100/?Kamoku={{ Rec.Code }}"
+			{% if Kamoku == Rec.Code %} selected {% endif %}
+			>{{ Rec.Name}}
+		{% endfor %}
+	</select>
+-->
+
+<TABLE border="1">
+	<TR>
+		<TH class="Col7">日付</TH>
+		<TH class="Col4">コード</TH>
+		<TH class="Col3">品名</TH>
+		<TH class="Col4">数量</TH>
+		<TH class="Col4">単位</TH>
+		<TH class="Col4">数量</TH>
+		<TH class="Col4">単位</TH>
+	</TR>
+</TABLE>
+<DIV class="scr">
+	<TABLE border="1">
+		<TR style="visibility: collapse;">
+		<TH class="Col7">日付</TH>
+		<TH class="Col4">コード</TH>
+		<TH class="Col3">品名</TH>
+		<TH class="Col4">数量</TH>
+		<TH class="Col4">単位</TH>
+		<TH class="Col4">数量</TH>
+		<TH class="Col4">単位</TH>
+		</TR>
+			{% for DataRec in DataRecs %} 
+				{% if DataRec.Code %}
+					<TR>
+						<TD>
+							{{ DataRec.Hizuke|date:"y/m/d" }}
+						</TD>
+						<TD>
+							{{ DataRec.Code }}
+						</TD>
+						<TD>
+	  					{{ DataRec.Name }}
+						</TD>
+						<TD>{{ DataRec.Suryo1|default_if_none:"" }}</TD>
+						<TD>{{ DataRec.Tanni1 }}</TD>
+						{% if DataRec.Tanni2  ==  "" %}
+							<TD></TD>
+							<TD></TD>
+						{% else %}
+							<TD>{{ DataRec.Suryo2|default_if_none:"" }}</TD>
+							<TD>{{ DataRec.Tanni2|default_if_none:"" }}</TD>
+						{% endif %}
+					</TR>
+				{% endif %}
+			{% endfor %}
+	</TABLE>
+</DIV>
+
+<p	class="LblMsg">
+{{ LblMsg }}</p>
+
+<input type="button" value = "終了" class="button"
+  onclick="location.href='/item0000/'">
+	
+<BR>
+
+</form>
+</body>
+
+</html>

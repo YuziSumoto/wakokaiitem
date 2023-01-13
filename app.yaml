@@ -1,6 +1,8 @@
 # application: wakokaiitem
 # version: 1
+
 runtime: python27
+
 api_version: 1
 threadsafe: yes
 
@@ -21,6 +23,13 @@ handlers:
 # 名称検索画面
 - url: /item0120/.*
   script: item0120.app
+# 発注確定画面
+- url: /item0130/.*
+  script: item0130.app
+# 期間集計画面
+- url: /item0150/.*
+  script: item0150.app
+
 # 伝票出力
 - url: /item0600/.*
   script: item0600.app
@@ -31,12 +40,21 @@ handlers:
 # マスタメンテメニュー
 - url: /item9000/.*
   script: item9000.app
+# 部門マスタメンテ画面
+- url: /item9010/.*
+  script: item9010.app
+# 部署マスタメンテ画面
+- url: /item9020/.*
+  script: item9020.app
 # 物品マスタ一覧
 - url: /item9050/.*
   script: item9050.app
 # 物品マスタCSV取込
 - url: /item9051/.*
   script: item9051.app
+# 物品マスタ出力
+- url: /item9052/.*
+  script: item9052.app
 # 物品マスタ更新
 - url: /item9055/.*
   script: item9055.app
@@ -105,9 +123,6 @@ handlers:
 # 発注日マスタメンテ画面
 - url: /item900/.*
   script: item900.app
-# 部署マスタメンテ画面
-- url: /item910/.*
-  script: item910.app
 # 使用者マスタメンテ画面
 - url: /item920/.*
   script: item920.app

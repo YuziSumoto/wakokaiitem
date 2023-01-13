@@ -27,16 +27,18 @@ class MstBuppin(db.Model):
 
   def GetAll(self):
     Sql =  "SELECT * FROM " + self.__class__.__name__
-    Sql += " Order By Siiresaki,Code"
-    Snap = db.GqlQuery(Sql)
-    if Snap.count() == 0:
-      Recs = {}
-    else:
-      Recs = Snap.fetch(Snap.count())
-    for Rec in Recs:
-      setattr(Rec,"SiiresakiName",MstSiiresaki().GetRec(Rec.Siiresaki).Name)
-      setattr(Rec,"TanaName",MstTana().GetRec(Rec.Tana).Name)
-      setattr(Rec,"Kamoku",MstKamoku().GetRec(Rec.KamokuCD).Name)
+    Sql += " Order By KamokuCD,Kana"
+    Query = db.GqlQuery(Sql)
+    Snap  = Query.fetch(Query.count())
+
+    DicKamoku = MstKamoku().GetDic()
+
+    for Rec in Snap:
+      setattr(Rec,"SiiresakiName","") #MstSiiresaki().GetRec(Rec.Siiresaki).Name)
+      setattr(Rec,"TanaName","") # MstTana().GetRec(Rec.Tana).Name)
+      setattr(Rec,"Kamoku",DicKamoku[Rec.KamokuCD])
+
+    return Snap
 
   def Kensaku(self,Kensaku):
 

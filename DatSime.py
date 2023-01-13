@@ -21,9 +21,9 @@ class DatSime(db.Model):
       Rec = Snap.fetch(1)[0]
     return Rec
 
-  def GetWeek(self,Hizuke): # １週間分取得
+  def GetKikan(self,Hizuke,Days): # 指定日数分取得
     
-    EndHizuke = datetime.datetime.strptime(Hizuke,"%Y/%m/%d") + datetime.timedelta(days=7)
+    EndHizuke = datetime.datetime.strptime(Hizuke,"%Y/%m/%d") + datetime.timedelta(days=Days)
 
     Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql +=  " Where Hizuke    >= DATE('" + Hizuke.replace("/","-") + "')"
@@ -40,7 +40,7 @@ class DatSime(db.Model):
     Rec = self.GetRec(Hizuke,Busyo)
     if MODE == "ON":
       Rec.SimeNitizi = datetime.datetime.now() + datetime.timedelta(hours=9) 
+      Rec.put()
     else:
-      Rec.SimeNitizi = None 
-    Rec.put()
+      Rec.delete()
     return 

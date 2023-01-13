@@ -11,25 +11,62 @@
 
 <body>
 	<form action="/item0000/"  method="post">
+		<select name="Bumon" onchange="submit(this.form);">
+			{% for RecMst in SnapBumon %} 
+				<OPTION value="{{ RecMst.Code }}"
+				{% if Bumon == RecMst.Code %} selected {% endif %}
+				>{{ RecMst.Name}}
+			{% endfor %}
+		</select><BR>
+		<select name="BusyoCD" onchange="submit(this.form);">
+			{% for RecMst in MstBusyo %} 
+				<OPTION value="{{ RecMst.Code }}"
+				{% if Busyo == RecMst.Code %} selected {% endif %}
+				>{{ RecMst.Name}}
+			{% endfor %}
+		</select>
+<BR>
 
-	<select name="BusyoCD" onchange="submit(this.form);">
-		{% for RecMst in MstBusyo %} 
-			<OPTION value="{{ RecMst.Code }}"
-			{% if Busyo == RecMst.Code %} selected {% endif %}
-			>{{ RecMst.Name}}
-		{% endfor %}
-	</select>
-<BR>
-{{ LblMsg }}<BR>
-<BR>
+<H1>{{ LblMsg }}<H1>
+
 <input type="button" value = "物品請求" class="button"
 	{% if Hizuke  == 0  %} Disabled 					{% endif %}
-	onclick="location.href='/item0100/?Hizuke={{ Hizuke }}&Busyo={{ Busyo }}'"><BR>
-<BR>
+	onclick="location.href='/item0100/?Hizuke={{ Hizuke }}&Busyo={{ Busyo }}'">
+　
+<input type="button" value = "請求集計" class="button"
+	{% if Hizuke  == 0  %} Disabled 					{% endif %}
+	onclick="location.href='/item0150/?Busyo={{ Busyo }}'">　　　　
+<!--
 <input type="button" value = "庶務業務" class="button"
 	onclick="location.href='/item9000/'"><BR>
-
+-->
+<BR>
+<BR>
+<TABLE border="1">
+	<TR>
+		<TH rowspan="2">物品請求日</TH>
+		<TD>毎週火曜　老健・街・ハイツII</TD>
+	</TR>
+	<TR>
+		<TD>毎週水曜　こかげ・病院・重デイ・里・精デイ・その他</TD>
+	</TR>
+	<TR>
+		<TH>提出</TH>
+		<TD>１０：３０迄</TD>
+	</TR>
+	<TR>
+		<TH>受渡</TH>
+		<TD>１４：００～</TD>
+	</TR>
+	<TR>
+		<TH colspan="2">※祝日・緊急時はこの限りではありません。</TH>
+	</TR>
+</TABLE>
+<BR>
 </form>
+
+<img src="https://wakoukai.sakura.ne.jp/wordpress/wp-content/uploads/2023/01/1-1.png">
+
 </body>
 
 </html>

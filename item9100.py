@@ -10,6 +10,8 @@ from google.appengine.ext.webapp.util import login_required
 from google.appengine.api import users
 
 import datetime
+
+from MstBumon    import *   # 部門マスタ
 from MstBusyo    import *   # 部署マスタ
 from MstHizuke   import *   # 発注日マスタ
 from DatSime     import *   # 締めデータ
@@ -28,8 +30,16 @@ class MainHandler(webapp2.RequestHandler):
     cookieStr = 'Hizuke=' + Hizuke + ';'     # Cookie保存
     self.response.headers.add_header('Set-Cookie', cookieStr.encode('shift-jis'))
 
+    Bumon = int(self.request.get('Bumon',self.request.cookies.get('Bumon', '1'))) # 部門指定
+    cookieStr = 'Bumon=' + str(Bumon) + ';'     # Cookie保存
+    self.response.headers.add_header('Set-Cookie', cookieStr.encode('shift-jis'))
+
     if self.request.get('ChgHizuke','') != "": # 更新ボタン押下時
-      MstHizuke().ChgRec(self.request.get('ChgHizuke',''),self.request.get('Busyo',''))
+      if self.request.get('Busyo','') == "ALL":
+        for Rec in MstBusyo().GetBumon(Bumon):
+          MstHizuke().ChgRec(self.request.get('ChgHizuke',''),str(Rec.Code))
+      else:
+        MstHizuke().ChgRec(self.request.get('ChgHizuke',''),self.request.get('Busyo',''))
 
     Zenzitu  = datetime.datetime.strptime(Hizuke,"%Y/%m/%d") + datetime.timedelta(days=-1)
     Zenzitu  = Zenzitu.strftime("%Y/%m/%d")
@@ -40,20 +50,25 @@ class MainHandler(webapp2.RequestHandler):
     LstHizuke = []
     wHizuke = datetime.datetime.strptime(Hizuke,"%Y/%m/%d")
     YOUBI = [u"月",u"火",u"水",u"木",u"金",u"土",u"日"]
-    for Ctr in range(0,7):
-      LstHizuke.append(wHizuke.strftime('%m/%d') + "<BR>(" + YOUBI[wHizuke.weekday()] + ")" )
+#    for Ctr in range(0,7): # 20221117 
+    for Ctr in range(0,10):
+      Rec = {}
+      Rec["Hizuke"] = wHizuke.strftime('%Y/%m/%d')
+      Rec["sHizuke"] = wHizuke.strftime('%m/%d') + "<BR>(" + YOUBI[wHizuke.weekday()] + ")"
+      LstHizuke.append(Rec)
       wHizuke +=  datetime.timedelta(days=1)
 
-    lDatSime = DatSime().GetWeek(Hizuke) 
-    lMstHizuke = MstHizuke().GetWeek(Hizuke)
+    lDatSime = DatSime().GetKikan(Hizuke,10) 
+    lMstHizuke = MstHizuke().GetKikan(Hizuke,10)
 
-    Snap = MstBusyo().GetAll()
+    Snap = MstBusyo().GetBumon(Bumon)
     for Rec in Snap:
       RecSime = wDatSime.GetRec(Hizuke,Rec.Code)
       setattr(Rec,"SimeNitizi",RecSime.SimeNitizi)
       SnapHizuke = []
       wHizuke = datetime.datetime.strptime(Hizuke,"%Y/%m/%d")
-      for Ctr in range(0,7):
+#      for Ctr in range(0,7): # 20221117 
+      for Ctr in range(0,10):
         wRec = {"Hizuke":wHizuke.strftime('%Y/%m/%d')}
         if self.ChkSime(lDatSime,wHizuke,Rec.Code) == True: # 締め済
           wRec["Zyotai"] = 2
@@ -67,7 +82,8 @@ class MainHandler(webapp2.RequestHandler):
 
 #    LblMsg += "E=" +  str(datetime.datetime.now()) 
 
-    template_values = {
+    template_values = { 'Bumon'     : int(Bumon),
+                        'SnapBumon' : MstBumon().GetAll(),
                         'Hizuke'    : Hizuke,
                         'Zenzitu'   : Zenzitu,
                         'Yokuzitu'  : Yokuzitu,
@@ -81,8 +97,12 @@ class MainHandler(webapp2.RequestHandler):
     Ret = False
     for Rec in Snap:
       if (Rec.Hizuke == Hizuke) and (Rec.Busyo == Busyo):        
-        Ret = True
-        break
+        if Rec.Hizuke == None:
+          Ret = False
+          break
+        else:
+          Ret = True
+          break
     return Ret
 
   def ChkHizuke(self,Snap,Hizuke,Busyo):

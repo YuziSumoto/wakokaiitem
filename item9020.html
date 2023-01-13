@@ -1,0 +1,108 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+    .col1   {width:  50px;}
+    .col2   {width: 100px;}
+    .col3   {width: 200px;}
+		TH {background-color: cyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  550px;
+			height: 300px;
+			border: 4px double #000000; 
+		}
+  </style>
+
+	<title>和恒会物品管理(item9020)</title>
+</head>
+
+<body>
+	<form action="/item9020/" method="post" style="font-size:X-LARGE">
+<!--  一覧部 -->
+  <table border="1">
+		<TR>
+			<TH class="Col1">コード</TH>
+			<TH class="Col3">部門名</TH>
+			<TH class="Col3">部署名</TH>
+			<TH class="Col1">削除</TH>
+		</TR>
+	</table>
+
+	<DIV class="scr">
+	<table border="1">
+		<TR  style="visibility: collapse;"> <!-- # 枠幅設定用行なので非表示 -->
+			<TD class="Col1"></TD>
+			<TD class="Col3"></TD>
+			<TD class="Col3"></TD>
+			<TD class="Col1"></TD>
+		</TR>
+		{% for Rec in Snap %} 
+			<TR>
+				<TD> <!-- 選択ボタン -->
+					<input type="button" class="Col1" 
+						value='{{ Rec.Code }}' onclick="location.href='/item9020/?Code={{ Rec.Code }}'">
+				</TH>
+				<TD>{{ Rec.BumonName}}</TD>
+				<TD>{{ Rec.Name}}</TD>
+				<TD> <!-- 削除ボタン -->
+					<input type="button" class="Col1" 
+						value='削除' onclick="location.href='/item9020/?Del={{ Rec.Code }}'">
+				</TH>
+			</TR>
+		{% endfor %}
+	</table>
+	</DIV>
+<!--  登録部 -->
+  <table border="1">
+		<TR>
+			<TH class="Col1">コード</TH>
+			<TD class="Col3">
+				<input type="number" min="1" max="99" value="{{ Rec.Code }}" name="Code" class="text" />
+			</TD>
+		</TR>
+		<TR>
+			<TH class="Col1">部門</TH>
+			<TD class="Col3">
+				<select name="Bumon"  class="text">
+					{% for Rec2 in SnapBumon %} 
+						<OPTION value="{{ Rec2.Code }}"
+						{% if Rec.Bumon == Rec2.Code %} selected {% endif %}
+						>{{ Rec2.Name}}
+					{% endfor %}
+				</select>
+			</TD>
+		</TR>
+		<TR>
+				<TH>部署名</TH>
+				<TD>
+					<input value="{{ Rec.Name|default_if_none:"" }}" name="Name" class="text" />
+				</TD>
+		</TR>
+		<TR>
+				<TH>並び順</TH>
+				<TD>
+					<input type="number" min="1" max="99" value="{{ Rec.SortNo|default_if_none:"" }}" name="SortNo" class="text" />
+				</TD>
+		</TR>
+
+		</table>
+
+<BR>
+<BR>
+<BR>
+
+<input type="submit" value = "更新" name="BtnEnd" class="button">
+　　
+<input type="button" class="button" value="終了" onclick="location.href='/item9000/'">
+
+<BR>
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+</form>
+</body>
+
+</html>

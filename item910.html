@@ -67,6 +67,12 @@
 					<input value="{{ Rec.Name }}" name="Name" class="text" />
 				</TD>
 			</TR>
+			<TR>
+				<TH>並び順</TH>
+				<TD>
+					<input type="number" min="1" max="99" value="{{ Rec.SortNo|default_if_none:0 }}" name="SortNo" class="text" />
+				</TD>
+			</TR>
 
 		</table>
 
@@ -76,7 +82,7 @@
 
 <input type="submit" value = "決定" name="BtnEnd" class="button">
 　　
-<input type="button" class="button" value="終了" onclick="location.href='/item0000/'">
+<input type="button" class="button" value="終了" onclick="location.href='/item9000/'">
 
 <BR>
 

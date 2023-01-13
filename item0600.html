@@ -10,7 +10,7 @@
 		TH {font-size:LARGE;background-color: lightcyan;}
 		.scr {
 			overflow-y: scroll;   /* スクロール表示 */ 
-			width:  650px;
+			width:  1050px;
 			height: 300px;
 			border: 1px double #000000; 
 		}
@@ -27,15 +27,34 @@
 		<TD class="Col1"></TD>
 		<TD class="Col1"></TD>
 		<TD class="Col1"></TD>
+		<TD class="Col1"></TD>
 	</TR>
 	<TR>
-		<TH class="Col1">伝票日付</TH>
-		<TD colspan="2">{{ Hizuke }}</TD>
+		<TH>部門</TH>
+		<TD>
+			<select name="Bumon" onchange="location.href=value;">
+				{% for RecMst in SnapBumon %} 
+					<OPTION value="?Bumon={{ RecMst.Code }}"
+					{% if Bumon == RecMst.Code %} selected {% endif %}
+					>{{ RecMst.Name}}
+				{% endfor %}
+			</select><BR>
+		</TD>
+		<TH>伝票日付</TH>
+		<TD>{{ Hizuke }}</TD>
 	</TR>
 	<TR>
-		<TH class="Col1">部署</TH>
-		<TH class="Col1">締め日時</TH>
-		<TH class="Col1">印刷日時</TH>
+		<TH>部署</TH>
+		<TH>発注者</TH>
+		<TH>確認者</TH>
+		<TH>
+			<input type="button" value = "締め処理" class="button2"
+ 						onclick="location.href='/item0600/?Bumon={{ Bumon }}&SIME=ON&BUSYO=ALL'">
+		</TH>
+		<TH>
+				<input type='button' class="button2"	value= "一括印刷"
+									onclick="window.open('/item0610/?Bumon={{ Bumon }}&HIZUKE={{ Hizuke }}&BUSYO=ALL')">
+		</TH>
 	</TR>
 </TABLE>
 <DIV class="scr">
@@ -44,18 +63,26 @@
 			<TD class="Col1"></TD>
 			<TD class="Col1"></TD>
 			<TD class="Col1"></TD>
+			<TD class="Col1"></TD>
+			<TD class="Col1"></TD>
 		</TR>
 		{% for Rec in Snap %} 
 			<TR>
 				<TD>{{ Rec.Name}}</TD>
+				<TD>{{ Rec.Hattyuusya|default_if_none:"" }}</TD>
+				<TD>{{ Rec.Kakuninsya|default_if_none:"" }}</TD>
 				<TD>{# 締めボタン #}
 					{% if Rec.HattyuBi == "YES" %}	{# 発注日 #}
-						{% if Rec.SimeNitizi %}	{# 締め済 #}
-							<input type="button" value = "{{ Rec.SimeNitizi|date:"Y/m/d H:i:s" }}" class="button2"
- 	 						onclick="location.href='/item0600/?SIME=OFF&BUSYO={{ Rec.Code }}'">
+						{% if Rec.Kakuninsya %} {# 確認済 #}
+							{% if Rec.SimeNitizi %}	{# 締め済 #}
+								<input type="button" value = "{{ Rec.SimeNitizi|date:"Y/m/d H:i:s" }}" class="button2"
+ 		 						onclick="location.href='/item0600/?SIME=OFF&BUSYO={{ Rec.Code }}'">
+							{% else %} 	{# 締め前 #}
+								<input type="button" value = "締め実施" class="button2"
+ 		 						onclick="location.href='/item0600/?SIME=ON&BUSYO={{ Rec.Code }}'">
+							{% endif %}
 						{% else %} 	{# 締め前 #}
-							<input type="button" value = "締め実施" class="button2"
- 	 						onclick="location.href='/item0600/?SIME=ON&BUSYO={{ Rec.Code }}'">
+							確認未登録
 						{% endif %}
 					{% endif %}
 				</TD>
@@ -68,7 +95,7 @@
 							{% else %}
 									value= "印刷実行"
 							{% endif %}
-									onclick="window.open('/item0610/?HIZUKE={{ Hizuke }}&BUSYO={{ Rec.Code }}')">
+							onclick="window.open('/item0610/?HIZUKE={{ Hizuke }}&BUSYO={{ Rec.Code }}')">
 						{% endif %}
 					{% endif %}
 				</TD>
@@ -85,7 +112,7 @@
   onclick="location.href='/item0600/?Hizuke={{ Yokuzitu }}'">
 　
 <input type="button" value = "終了" class="button"
-  onclick="location.href='/item0000/'"><BR>
+  onclick="location.href='/item9000/'"><BR>
 	
 <BR>
 

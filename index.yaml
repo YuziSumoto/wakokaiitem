@@ -33,6 +33,16 @@ indexes:
   - name: BusyoCode
   - name: BuppinCode
 
+- kind: MstBumon
+  properties:
+  - name: SortNo
+  - name: Code
+
+- kind: MstBuppin
+  properties:
+  - name: KamokuCD
+  - name: Code
+
 - kind: MstBuppin
   properties:
   - name: KamokuCD
@@ -75,6 +85,17 @@ indexes:
   - name: YukoFlg
   - name: KamokuCode
   - name: Name
+
+- kind: MstBusyo
+  properties:
+  - name: Bumon
+  - name: SortNo
+  - name: Code
+
+- kind: MstBusyo
+  properties:
+  - name: SortNo
+  - name: Code
 
 - kind: MstBusyo
   properties:

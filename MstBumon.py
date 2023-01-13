@@ -2,27 +2,19 @@
 from google.appengine.ext import db
 import datetime
 
-class MstBusyo(db.Model):
+class MstBumon(db.Model):
   Code            = db.IntegerProperty()                    # ＣＤ
-  Bumon           = db.IntegerProperty()                    # 部門
   Name            = db.StringProperty(multiline=False)      # 備考
   SortNo          = db.IntegerProperty()                    # 並び順
 
   def GetAll(self):
-    Sql =  "SELECT * FROM MstBusyo"
-    Sql += " Order By Code"
-    Query = db.GqlQuery(Sql)
-    return Query.fetch(Query.count())
-
-  def GetBumon(self,Bumon):
-    Sql =  "SELECT * FROM MstBusyo"
-    Sql += " Where Bumon = " + str(Bumon)
+    Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql += " Order By SortNo,Code"
     Query = db.GqlQuery(Sql)
     return Query.fetch(Query.count())
 
   def Delete(self,Code):
-    Sql =  "SELECT * FROM MstBusyo"
+    Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql += " Where Code = " + str(Code)
     Query = db.GqlQuery(Sql)
     for Rec in Query.fetch(Query.count()):
@@ -30,7 +22,7 @@ class MstBusyo(db.Model):
     return
 
   def GetRec(self,Code):
-    Sql =  "SELECT * FROM MstBusyo"
+    Sql =  "SELECT * FROM " + self.__class__.__name__
     Sql += " Where Code = " + str(Code)
     Query = db.GqlQuery(Sql)
     if Query.count() == 0:

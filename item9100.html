@@ -7,12 +7,12 @@
     .Col1 {width:200px;}
     .Col2 {width:80px;}
     select  {font-size:LARGE}
-    TABLE  {table-layout:fixed}
+    TABLE  {table-layout:fixed;width:800px;}
 		TH {font-size:LARGE;background-color: lightcyan;}
 		.scr {
 			overflow-y: scroll;   /* スクロール表示 */ 
-			width:  850px;
-			height: 300px;
+			width:  1100px;
+			height: 600px;
 			border: 1px double #000000; 
 		}
   </style>
@@ -25,10 +25,25 @@
 
 <TABLE border="1">
 	<TR>
-		<TH class="Col1">部署</TH>
+		<TH class="Col1">
+			<select name="Bumon" onchange="location.href=value;">
+				{% for RecMst in SnapBumon %} 
+					<OPTION value="?Bumon={{ RecMst.Code }}"
+					{% if Bumon == RecMst.Code %} selected {% endif %}
+					>{{ RecMst.Name}}
+				{% endfor %}
+			</select><BR>
+		</TH>
 		{% for Rec in LstHizuke %} 
-			<TH class="Col2">{{ Rec|safe }}</TH>
+			<TH class="Col2" rowspan="2">
+				<button type="button" class="button2"
+						onclick="location='/item9100/?Busyo=ALL&ChgHizuke={{ Rec.Hizuke }}'">
+				{{ Rec.sHizuke|safe }} </button>
+			</TH>
 		{% endfor %}
+	</TR>
+	<TR>
+		<TH class="Col1">部署</TH>
 	</TR>
 </TABLE>
 <DIV class="scr">
@@ -71,7 +86,7 @@
   onclick="location.href='/item9100/?Hizuke={{ Yokuzitu }}'">
 　
 <input type="button" value = "終了" class="button"
-  onclick="location.href='/item0000/'"><BR>
+  onclick="location.href='/item9000/'"><BR>
 	
 <BR>
 

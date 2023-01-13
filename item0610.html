@@ -3,37 +3,42 @@
 	<meta charset="utf-8">
 	<title>注文伝票</title>
 	<style type="text/css">
+    TABLE  {table-layout:fixed;width:750px;}
 		TH {background-color: lightcyan;}
 		.XX-text  {font-size:XX-LARGE}
 		.text  {font-size:X-LARGE}
-		.td-cssNo {  border-style:none; } 
-		.td-css   { border: 1px solid black; }
-		.Col1 {width: 200px;}
+		.Col1  {width: 200px;}
 		.Col2 {width: 100px;}
+		.Col2H {width: 100px;background-color:cyan;}
 		.Col3 {width: 300px;}
-		.Col4 {width:  80px;text-align:right;}
-		.Col5 {width:  80px;text-align:left;}
-		.Col6 {width: 300px;}
-		.Red	{color:red;}
-		.Blue	{color:blue;}
+		.Col4 {width:  50px;text-align:right;}
+		.Col5 {width:  50px;text-align:left;}
+		.Col6 {width: 150px;}
+		.BtnKakunin {width:  30px;}
 	</style>
 </head>
 
 <body>
 
-<TABLE border="1"> 
-	<TR>
-				<TH class="Col1">日付</TH>
-				<TD class="Col2">{{ Hizuke }}</TD>
-	</TR>
-	<TR>
-				<TH class="Col1">部署</TH>
-				<TD class="Col2">{{ RecBusyo.Name }}</TD>
-	</TR>
-</TABLE> 
+{% for Rec in Snap %} 
 
-	<TABLE border="1"> 
-		<TR style="visibility: collapse;">
+
+	{% if Rec.KamokuCD <= 0 %} {# 病棟ブレイク #}
+		{% if Rec.KamokuCD == 0 %} {# ２ページ目以降 #}
+			</TABLE> 
+			<BR>
+			<div style="page-break-after: always;"></div>
+		{% endif %} 
+		<TABLE border="1"> 
+			<TR>
+				<TH class="Col2H">日付</TH>
+				<TD class="Col2">{{ Hizuke }}</TD>
+				<TH class="Col2H">部署</TH>
+				<TD class="Col3">{{ Rec.KamokuName }}</TD>
+			</TR>
+		</TABLE> 
+		<TABLE border="1"> 
+				<TR style="visibility: collapse;">
 					<TH class="Col2">コード</TH>
 					<TH class="Col3">名称</TH>
 					<TH class="Col4">数量</TH>
@@ -41,27 +46,41 @@
 					<TH class="Col4">数量</TH>
 					<TH class="Col5">単位</TH>
 					<TH class="Col6">備考</TH>
+					<TH class="BtnKakunin">確認</TH>
 		</TR>
-{% for Rec in Snap %} 
-
-	{% if Rec.KamokuCD2 != 0 %}
-		<TR>
-					<TH colspan="7">{{ Rec.KamokuName }}　</TD>
-		</TR>
-	{% endif %} 
-	<TR>
+	{% else %}
+		{% if Rec.KamokuCD2 != 0 %}
+			<TR>
+						<TH colspan="8">　　{{ Rec.KamokuName }}　</TD>
+			</TR>
+		{% endif %} 
+		<TR
+			{% if Rec.Kakunin == 1 %}	{# 確認済 #}
+				bgcolor="lightgray"
+			{% endif %}
+		>
 				<TH>{{ Rec.BuppinCode }}</TH>
 				<TD>{{ Rec.BuppinName }}</TD>
-				<TD class="Col4">{{ Rec.Suryo1     }}</TD>
+				<TD class="Col4">{{ Rec.Suryo1|default_if_none:""     }}</TD>
 				<TD>{{ Rec.Tanni1     }}</TD>
 				{% if Rec.Tanni2 == "" %}
 					<TD colspan="2"></TD>
 				{% else %} 
-					<TD class="Col4">{{ Rec.Suryo2     }}</TD>
-					<TD>{{ Rec.Tanni2     }}</TD>
+					<TD class="Col4">{{ Rec.Suryo2|default_if_none:""     }}</TD>
+					<TD>{{ Rec.Tanni2|default_if_none:""     }}</TD>
 				{% endif %} 
-				<TD>{{ Rec.Bikou      }} </TD>
-	</TR>
+				<TD>{{ Rec.Bikou|default_if_none:""      }} </TD>
+				<TD>
+					<input type="button" class="BtnKakunin"
+					{% if Rec.Kakunin == 1 %}	{# 確認済 #}
+						value = "〇"
+					{% else %}
+						value = "" 
+					{% endif %}
+						onclick="location.href='/item0610/?HIZUKE={{ Hizuke }}&BUSYO={{ Rec.BusyoCode }}&Code={{ Rec.BuppinCode }}&Mode=Kakunin'">
+				</TD>
+		</TR>
+	{% endif %} 
 {% endfor %} 
 
 </TABLE> 

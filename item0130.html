@@ -1,0 +1,88 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>注文伝票</title>
+	<style type="text/css">
+		.button {font-size:XX-LARGE}
+    TABLE  {table-layout:fixed;width:750px;}
+		TH {background-color: lightcyan;}
+		.XX-text  {font-size:XX-LARGE}
+		.text  {font-size:X-LARGE}
+		.Col1  {width: 200px;}
+		.Col2 {width: 100px;}
+		.Col2H {width: 100px;background-color:cyan;}
+		.Col3 {width: 300px;}
+		.Col4 {width:  50px;text-align:right;}
+		.Col5 {width:  50px;text-align:left;}
+		.Col6 {width: 150px;}
+		.BtnKakunin {width:  30px;}
+	</style>
+</head>
+
+<body>
+
+	<form name="Main" action="/item0130/" method="post" style="font-size:X-LARGE">
+
+	<TABLE border="1"> 
+		<TR>
+			<TH class="Col5">部署</TH>
+			<TH class="Col5">発注日</TH>
+			<TH class="Col5">発注者</TH>
+			<TH class="Col2">所属長</TH>
+			<TD class="Col5" rowspan="2">提出 10:30迄<BR> 受渡 14:00～</TD>
+		</TR>
+		<TR>
+			<TD>{{ BusyoName }}</TD>
+			<TD>{{ Hizuke }}</TD>
+			<TD>
+				{{ RecHizuke.Hattyuusya|default_if_none:"" }}
+			</TD>
+			<TD>
+				<input value="{{ RecHizuke.Kanrisya|default_if_none:"" }}" name="Kanrisya"  class="Hattyuusya" />
+			</TD>
+		</TR>
+	</TABLE> 
+	<TABLE border="1"> 
+		<TR style="visibility: collapse;">
+			<TH class="Col2">コード</TH>
+			<TH class="Col3">名称</TH>
+			<TH class="Col4">数量</TH>
+			<TH class="Col5">単位</TH>
+			<TH class="Col4">数量</TH>
+			<TH class="Col5">単位</TH>
+			<TH class="Col6">備考</TH>
+		</TR>
+		{% for Rec in Snap %} 
+			{% if Rec.KamokuCD2 != 0 %}
+				<TR>
+					<TH colspan="8">　　{{ Rec.KamokuName }}　</TD>
+				</TR>
+			{% endif %} 
+			<TR>
+				<TH>{{ Rec.BuppinCode }}</TH>
+				<TD>{{ Rec.BuppinName }}</TD>
+				<TD class="Col4">{{ Rec.Suryo1|default_if_none:"" }}</TD>
+				<TD>{{ Rec.Tanni1     }}</TD>
+				{% if Rec.Tanni2 == "" %}
+					<TD colspan="2"></TD>
+				{% else %} 
+					<TD class="Col4">{{ Rec.Suryo2|default_if_none:""     }}</TD>
+					<TD>{{ Rec.Tanni2|default_if_none:""     }}</TD>
+				{% endif %} 
+				<TD>{{ Rec.Bikou|default_if_none:""      }} </TD>
+			</TR>
+		{% endfor %} 
+
+</TABLE> 
+
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+<input type="submit" value = "発注"	class="button">
+　
+<input type="button" value = "中止" class="button"
+  onclick="location.href='/item0100/'">
+
+</form>
+</body>
+</html>
+

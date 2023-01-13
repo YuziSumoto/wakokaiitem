@@ -1,0 +1,86 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <style type="text/css">
+    SELECT  {font-size:X-LARGE}
+    INPUT   {font-size:X-LARGE}
+		.Button {font-size:XX-LARGE}
+		INPUT[type="submit"]{font-size:XX-LARGE}
+		.ListButton  {font-size:LARGE;width:48px;}
+		.ListButton2 {font-size:LARGE;width:100px;}
+		TABLE {table-layout:fixed;border:1px solid;}
+		TH {background-color:lightcyan;border:1px solid;}
+		TD {border:1px solid;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  780px;
+			height: 600px;
+			border: 1px double #000000; 
+		}
+		.Col1 {width:   50px;}
+		.Col2 {width:  100px;}
+		.Col3 {width:  200px;}
+		.Col4 {width:  400px;}
+  </style>
+
+	<title>物品マスタ一覧(item9052)</title>
+</head>
+
+<body>
+	<form action="/item9052/" method="post" style="font-size:X-LARGE">
+
+<!--  一覧部 -->
+  <TABLE>
+		<TR>
+			<TH class="Col3">科目</TH>
+			<TH class="Col2">コード</TH>
+			<TH class="Col4">名前</TH>
+			<TH class="Col1">単位1</TH>
+			<TH class="Col1">単位2</TH>
+			<TH class="Col2">無効</TH>
+		</TR>
+	</table>
+	<table border="1">
+		<TR style="visibility: collapse;"> <!-- # 枠幅設定用行なので高さは０ -->
+			<TD class="Col3"></TD>
+			<TD class="Col2"></TD>
+			<TD class="Col4"></TD>
+			<TD class="Col1"></TD>
+			<TD class="Col1"></TD>
+			<TD class="Col2"></TD>
+		</TR>
+		{% for Rec in Snap %} 
+				<TR
+						{% if Rec.YukoFlg == None %} {# 有効:1 無効:0 #}
+								bgcolor="white"
+						{% else %}
+							{% if Rec.YukoFlg == 1 %}
+								bgcolor="white"
+							{% else %}
+								bgcolor="gray"
+							{% endif %}
+						{% endif %}
+				  >
+					<TH>{{ Rec.Kamoku }}</TH>
+					<TH>{{ Rec.Code }}</TH>
+					<TD>{{ Rec.Name}}</TD>
+					<TD>{{ Rec.Tanni1}}</TD>
+					<TD>{{ Rec.Tanni2|default_if_none:""}}</TD>
+					<TD>{% if Rec.YukoFlg == None %}
+								有効
+							{% else %}
+								{% if Rec.YukoFlg == 0 %}
+									無効
+								{% else %}
+									有効
+								{% endif %}
+							{% endif %}
+					</TD>
+				</TR>
+		{% endfor %}
+		</table>
+
+</form>
+</body>
+
+</html>

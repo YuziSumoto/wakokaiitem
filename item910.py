@@ -37,13 +37,15 @@ class MainHandler(webapp2.RequestHandler):
 #      return
 
     LblMsg = ""
-    Code = self.request.get('Code') # 入力値受取
-    Name = self.request.get('Name') # 入力値受取
+    Code   = self.request.get('Code') # 入力値受取
+    Name   = self.request.get('Name') # 入力値受取
+    SortNo = self.request.get('SortNo') # 入力値受取
 
     if self.request.get('BtnEnd')  != '': # 更新ボタン
       Rec = MstBusyo()
-      Rec.Code = int(Code)
-      Rec.Name = Name
+      Rec.Code   = int(Code)
+      Rec.Name   = Name
+      Rec.SortNo = int(SortNo)
       Rec.AddRec(Rec)
       LblMsg = "更新完了"
     for param in self.request.arguments(): 

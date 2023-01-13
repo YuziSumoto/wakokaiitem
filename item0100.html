@@ -12,6 +12,7 @@
 			height: 500px;
 			border: 1px double #000000; 
 		}
+		.Kanrisya {font-size:LARGE;width:150px;}
 		.Col1 {width:150px;}
 		.Col2 {width:200px;}
 		.Col3 {width:300px;font-size:LARGE;}
@@ -29,13 +30,23 @@
 
 <TABLE border="1">
 	<TR>
-		<TH class="Col1">部署</TH>
-		<TH class="Col1">発注日</TH>
-		<TD class="Col2" rowspan="2">提出 10:30迄 受渡 14:00～</TD>
+		<TH class="Col5">部署</TH>
+		<TH class="Col5">発注日</TH>
+		<TH class="Col2">発注者</TH>
+		<TH class="Col5">所属長</TH>
+		<TD class="Col5" rowspan="2">提出 10:30迄<BR> 受渡 14:00～</TD>
 	</TR>
 	<TR>
 		<TD>{{ Rec.BusyoName }}</TD>
 		<TD>{{ Rec.Hizuke }}</TD>
+		<TD>
+			<input value="{{ Rec.Hattyuusya|default_if_none:"" }}" name="Hattyuusya"  class="Kanrisya" 
+				{% if Sime == 1 %} disabled {% endif %} 
+			/>
+		</TD>
+		<TD>
+			{{ Rec.Kanrisya|default_if_none:"" }}
+		</TD>
 	</TR>
 </TABLE>
 科目：
@@ -140,9 +151,13 @@
 	{% if NextDay  == 0  %} Disabled 					{% endif %}
   onclick="location.href='/item0100/?Hizuke={{ NextDay }}'">
 　
+<input type="submit" value = "発注" class="button"
+	{% if Sime == 1 %} disabled {% endif %} 
+>
+　
 <input type="button" value = "終了" class="button"
   onclick="location.href='/item0000/'">
-	
+
 <BR>
 
 </form>

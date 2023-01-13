@@ -30,7 +30,7 @@ class DatHizuke(db.Model):
   def GetNext(self,Hizuke): # 指定日以降の締めていない直近取得
     Sql =  "SELECT Hizuke FROM " + self.__class__.__name__
     Sql +=  " Where Hizuke      >= DATE('" + Hizuke.strftime("%Y-%m-%d") + "')"
-    Sql +=  "  And  SimeNitizi=:1" # is none
+    Sql +=  "  And  SimeNitizi  =: 1" # is none
     Sql +=  " Order By Hizuke"
     Snap = db.GqlQuery(Sql,None)
     if Snap.count() == 0:

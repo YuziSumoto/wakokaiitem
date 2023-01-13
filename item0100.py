@@ -38,6 +38,11 @@ class MainHandler(webapp2.RequestHandler):
     cookieStr = 'Hizuke=' + Hizuke + ';'     # Cookie保存
     self.response.headers.add_header('Set-Cookie', cookieStr.encode('shift-jis'))
 
+    if self.request.get('Post',"") == "NG": 
+      LblMsg = "発注者欄が未入力です。"
+    else:
+      LblMsg = ""
+
     if self.request.get('Code',"") != "": # 増減ボタン押下時
       DatSeikyu().ModRec(Hizuke,Busyo,self.request.get('Code',""),self.request.get('SURYO',""),self.request.get('MODE',""))
 
@@ -53,9 +58,11 @@ class MainHandler(webapp2.RequestHandler):
           setattr(DataRec,"Suryo2",SeikyuRec.Suryo2)
           setattr(DataRec,"Bikou",SeikyuRec.Bikou)
 
-    Rec["Busyo"]     = Busyo
-    Rec["BusyoName"] = MstBusyo().GetRec(Busyo).Name
-    Rec["Hizuke"]    = Hizuke
+    Rec["Busyo"]       = Busyo
+    Rec["BusyoName"]   = MstBusyo().GetRec(Busyo).Name
+    Rec["Hizuke"]      = Hizuke
+    Rec["Hattyuusya"]  = MstHizuke().GetRec(Hizuke,Busyo).Hattyuusya
+    Rec["Kanrisya"]    = MstHizuke().GetRec(Hizuke,Busyo).Kanrisya
 
     if Hizuke < datetime.datetime.now().strftime('%Y/%m/%d'): #今日以前
       Sime = True # 締め処理後
@@ -64,34 +71,32 @@ class MainHandler(webapp2.RequestHandler):
     else:
       Sime = True # 締め処理後
 
+    Yokuzitu = datetime.datetime.strptime(Hizuke,"%Y/%m/%d") + datetime.timedelta(days=1)
+    NextDay = MstHizuke().GetNext(Yokuzitu.strftime("%Y/%m/%d"),Busyo)
+
     template_values = { 'Rec'       :Rec,
                         'Sime'      :Sime,
                         'PrevDay'   :MstHizuke().GetPrev(Hizuke,Busyo),
-                        'NextDay'   :MstHizuke().GetNext(Hizuke,Busyo),
+                        'NextDay'   :NextDay,
                         'MstKamoku' :MstKamoku().GetAll2(),
                         'Kamoku'    :int(Kamoku),
                         'DataRecs'  :DataRecs,
-                        'LblMsg'    : ""}
+                        'LblMsg'    :LblMsg}
 
     path = os.path.join(os.path.dirname(__file__), 'item0100.html')
     self.response.out.write(template.render(path, template_values))
     return
 
-  def post(self): # 基本来ない
+  def post(self): # 発注ボタン押下時
 
-    Kamoku  = int(self.request.get('Kamoku',"0"))    # 画面より
-#    Busyo   = self.request.cookies.get('Busyo', '')  # Cookieより
-#    Hizuke  = self.request.cookies.get('Hizuke', '') # Cookieより
-
-#    for param in self.request.arguments(): 
-#      if "BtnSel" in param:  # 更新ボタン？
-#        Parm = "?BusyoCode=" + BusyoCD # Cookieより
-#        Parm += "&Code=" + param.replace("BtnSel","") # 押下ボタン名
-#        Parm += "&Hizuke=" + Hizuke.replace("/","-")  # 日付
-#        self.redirect("/item110/" + Parm) #
-#        return
-
-    self.redirect("/item0100/" + "?Kamoku=" + str(Kamoku)) # 科目変更
+    Hizuke      = self.request.cookies.get('Hizuke', '')
+    Busyo       = self.request.cookies.get('Busyo', '')
+    Hattyuusya  = self.request.get('Hattyuusya','')    # 画面より
+    if Hattyuusya  == "":
+      self.redirect("/item0100/?Post=NG") # 再表示
+    else:
+      MstHizuke().ModHattyuusya(Hizuke,Busyo,Hattyuusya)
+      self.redirect("/item0130/?Busyo=" +  Busyo + "&Hizuke=" + Hizuke) # 確認画面
 
     return
 
